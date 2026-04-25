@@ -17,7 +17,15 @@ TODO: TIME AND CLASSROOM
 For each session, **please bring your own Laptop!**. Please bring your headphone as well, because you will watch videos.
 
 
-## Sessions
+## Sessions (Main)
+
+For the main sessions, each session will be:
+- 1h of lecture
+- 1h of code
+- 1h of practice
+
+We have 6 hours for each week, 
+hence two main session each week.
 
 ### Session 1
 - Linear Regression
@@ -28,40 +36,18 @@ For each session, **please bring your own Laptop!**. Please bring your headphone
 ### Session 3, 4, 5
 - Neural networks
 
-3b1b videos:
-
-Either on YouTube:
-- https://www.youtube.com/watch?v=aircAruvnKk
-- https://www.youtube.com/watch?v=IHZwWFHWa-w
-- https://www.youtube.com/watch?v=Ilg3gGewQ5U
-- https://www.youtube.com/watch?v=tIeHLnjs5U8
-
-Or, on Bilibili:
-- https://www.bilibili.com/video/BV1bx411M7Zx/
-- https://www.bilibili.com/video/BV1Ux411j7ri/
-- https://www.bilibili.com/video/BV16x411V7Qg (Two videos on this one url)
-
-Or, in a playlist:
-- https://space.bilibili.com/88461692/lists/1528929
-
-
-
 ### Session 6, 7
 - Model selection
 
+## Sessions (Extra)
 
 ### Session 8 and after
 
-- CNN
-- https://poloclub.github.io/cnn-explainer/
-- https://github.com/helblazer811/ManimML
+- CNN, ResNet
 
-- GAN
-- https://poloclub.github.io/ganlab/
-
+- GAN, adversarial attack
 
 - AutoEncoder
-- https://douglasduhaime.com/posts/visualizing-latent-spaces.html
 
 - Transformer/Attention is all you need
 
@@ -75,11 +61,9 @@ Denoting your Final Exam score as `T`, your project score as `P`, your final sco
 0.8 * T + 0.2 * P
 ```
 
-For final exams:
-- around 70% will be on session 1 to session 7 (linear regression up to model selections)
-- around 30% will be random draw of those questions:
-    - [bag-of-questions.md](./bag-of-questions.md)
-    - Notice this bag of questions will grow with the time.
+For final exams `T`:
+- around 70% will be on session 1 to session 7 (main sessions, linear regression up to model selections)
+- around 30% will be easy questions for extra sessions. 
 
 ### Distribution of notes
 The distribution of notes is as follows:
@@ -181,7 +165,3 @@ Office visit is NOT welcome unless you make an appointment at least one day in a
     - https://www.bilibili.com/video/BV164411b7dx
 1. 吴恩达深度学习系列：
     - https://www.bilibili.com/video/BV164411m79z
-
-## License
-This repository is licensed under [MIT](LICENSE).
-
