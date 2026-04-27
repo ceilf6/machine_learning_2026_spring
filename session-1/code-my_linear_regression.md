@@ -19,22 +19,6 @@ $$
 - $W \in \mathbb{R}^{d \times 1}$: Weight matrix
 - $b$: Bias term (scalar)
 
-<details>
-<summary>❓ What is the geometric interpretation of weights and bias in linear regression?</summary>
-
-1. **Weights (w)**: 
-   - Represent the slope of the regression line
-   - Determine how much y changes when x increases by 1
-   - Sign indicates positive or negative relationship
-
-2. **Bias (b)**:
-   - Represents the y-intercept
-   - Value of y when x = 0
-   - Shifts the line vertically
-
-3. **Together**: Define a line (or hyperplane) that minimizes the distance to data points.
-</details><br>
-
 The objective is to find the optimal weights $W$ and bias $b$ that minimize the difference between the predicted values and the actual target values.
 
 <details>
