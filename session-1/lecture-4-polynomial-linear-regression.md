@@ -102,7 +102,7 @@ We still use gradient descent.
 The loss is the same:
 
 $$
-\mathcal{L} = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2
+\mathcal{L}(W, b)  = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2
 $$
 
 Gradients are computed with respect to each parameter:
