@@ -4,36 +4,6 @@
 
 In this tutorial, we will explore the mathematical foundations of simple linear regression, implement it from scratch using Python and NumPy, and enhance the basic implementation for improved performance and usability.
 
-<details>
-<summary>❓ What are the key differences between simple and multiple linear regression?</summary>
-
-The key differences between simple and multiple linear regression are:
-
-1. **Number of Features**:
-   - Simple Linear Regression: Uses only one independent variable (feature) to predict the dependent variable.
-   - Multiple Linear Regression: Uses two or more independent variables to predict the dependent variable.
-
-2. **Equation Form**:
-   - Simple: y = wx + b (where w and b are scalar values)
-   - Multiple: y = w₁x₁ + w₂x₂ + ... + wₙxₙ + b (where w₁, w₂, etc. are weights for different features)
-
-3. **Geometric Interpretation**:
-   - Simple: Fits a line in 2D space
-   - Multiple: Fits a hyperplane in multi-dimensional space
-
-4. **Complexity**:
-   - Simple: Easier to visualize and interpret
-   - Multiple: More powerful but can be harder to visualize and interpret
-
-5. **Use Cases**:
-   - Simple: When there's a clear relationship between one predictor and the outcome
-   - Multiple: When multiple factors affect the outcome, which is more common in real-world scenarios
-
-6. **Coefficient Interpretation**:
-   - Simple: Direct effect of the single feature on the outcome
-   - Multiple: Effect of each feature while holding all other features constant
-</details><br>
-
 ## Mathematical Foundations
 
 ### The Linear Model
@@ -97,20 +67,6 @@ Where:
 - $y^{(i)}$: Actual target value for the $i$-th sample
 - $\mathbf{x}^{(i)} \in \mathbb{R}^{1 \times d}$: Input feature row vector for the $i$-th sample
 
-<details>
-<summary>❓ Why do we use Mean Squared Error instead of Mean Absolute Error for linear regression?</summary>
-
-MSE is preferred over MAE because:
-
-1. **Mathematical properties**: Differentiable everywhere with smooth gradients
-2. **Statistical foundation**: Leads to maximum likelihood estimation with normally distributed errors
-3. **Optimization**: Creates a convex function with a single global minimum
-4. **Analytical solutions**: Allows closed-form solution (normal equation)
-5. **Gradient behavior**: Provides gradients proportional to error magnitude
-
-</details><br>
-
-
 ### Gradient Descent
 
 To minimize the cost function $\mathcal{L}(W, b)$, we employ the Gradient Descent optimization algorithm. Gradient Descent iteratively updates the weights and bias in the direction that reduces the cost.
@@ -137,8 +93,7 @@ $$
 \frac{\partial \mathcal{L}}{\partial b} = -\frac{2}{N} \sum_{i=1}^{N} (y^{(i)} - \mathbf{x}^{(i)} W - b)
 $$
 
-<details>
-<summary>❓ How are these gradient equations derived from the cost function?</summary>
+## How are these gradient equations derived from the cost function?
 
 Deriving the gradient equations from the MSE cost function involves applying calculus to find the partial derivatives. Here's the step-by-step derivation:
 
@@ -148,7 +103,7 @@ $$\mathcal{L}(W, b) = \frac{1}{N} \sum_{i=1}^{N} (y^{(i)} - (\mathbf{x}^{(i)} W 
 
 Let's use the shorthand $\hat{y}^{(i)} = \mathbf{x}^{(i)} W + b$ for the prediction.
 
-**1. Derivation of ∂𝓛/∂W:**
+**1. Derivation of $\frac{\partial \mathcal{L}}{\partial W}$:**
 
 Applying the chain rule:
 
@@ -171,7 +126,7 @@ $$\frac{\partial \mathcal{L}}{\partial W} = -\frac{2}{N} \sum_{i=1}^{N} (y^{(i)}
 
 $$= -\frac{2}{N} \sum_{i=1}^{N} \mathbf{x}^{(i)T} (y^{(i)} - \mathbf{x}^{(i)} W - b)$$
 
-**2. Derivation of ∂𝓛/∂b:**
+**2. Derivation of $\frac{\partial \mathcal{L}}{\partial b}$:**
 
 Similarly:
 $$\frac{\partial \mathcal{L}}{\partial b} = \frac{\partial \mathcal{L}}{\partial \hat{y}^{(i)}} \cdot \frac{\partial \hat{y}^{(i)}}{\partial b}$$
@@ -183,9 +138,6 @@ Combining:
 $$\frac{\partial \mathcal{L}}{\partial b} = -\frac{2}{N} \sum_{i=1}^{N} (y^{(i)} - \hat{y}^{(i)}) \cdot 1$$
 
 $$= -\frac{2}{N} \sum_{i=1}^{N} (y^{(i)} - \mathbf{x}^{(i)} W - b)$$
-
-**Note**: The factor of 2 is sometimes absorbed into the learning rate, which is why you might see these equations without the 2 in some implementations.
-</details><br>
 
 
 Using these gradients, the update rules for weights and bias are:
@@ -200,23 +152,6 @@ $$
 
 Where $\eta$ is the learning rate, a hyperparameter that controls the step size in each update.
 
-<details>
-<summary>❓ How does the learning rate affect the convergence of gradient descent?</summary>
-
-Learning rate impacts convergence:
-
-1. **Too large**: 
-   - Overshoots the minimum
-   - May diverge or oscillate
-   - Can cause numerical instability
-
-2. **Too small**:
-   - Very slow convergence
-   - May get stuck in high-precision computations
-   - More susceptible to getting trapped in local minima (for non-convex functions)
-   - Risks terminating before reaching the actual minimum if using early stopping
-
-</details><br>
 
 ## Implementing Linear Regression in Python
 
