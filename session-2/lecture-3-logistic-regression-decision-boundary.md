@@ -98,7 +98,6 @@ This equation defines the decision boundary.
 
 ## 5. Important insight
 
-![](./img/lg.jpg)
 
 
 ![](./img/logisticregressionanimatedgif4.gif)
@@ -107,13 +106,13 @@ This equation defines the decision boundary.
 Even though the model uses a nonlinear function:
 
 $$
-\sigma(x W + b)
+\boxed{\sigma(x W + b)}
 $$
 
 the decision boundary is still:
 
 $$
-x W + b = 0
+\boxed{x W + b = 0}
 $$
 
 which is linear.

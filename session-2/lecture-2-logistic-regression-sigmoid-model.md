@@ -41,7 +41,7 @@ So the question becomes:
 We introduce a function:
 
 $$
-\sigma(z) = \frac{1}{1 + e^{-z}}
+\boxed{\sigma(z) = \frac{1}{1 + e^{-z}}}
 $$
 
 This is called the sigmoid function.

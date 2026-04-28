@@ -97,7 +97,7 @@ MSE treats $\hat{y}$ as a raw number. But $\hat{y}$ is a **probability**. We wan
 The natural choice is **Binary Cross Entropy (BCE)**:
 
 $$
-\mathcal{L}_\text{BCE} = - \frac{1}{n} \sum_{i=1}^{n} \big( y_i \log \hat{y}_i + (1-y_i) \log (1 - \hat{y}_i) \big)
+\boxed{\mathcal{L}_\text{BCE} = - \frac{1}{n} \sum_{i=1}^{n} \big( y_i \log \hat{y}_i + (1-y_i) \log (1 - \hat{y}_i) \big)}
 $$
 
 **Intuition:**
@@ -108,7 +108,6 @@ $$
 * Confident mistakes → very large loss
 
 
-![](./img/ce.jpg)
 
 ---
 
@@ -128,8 +127,6 @@ Notice how **BCE penalizes wrong confident predictions sharply**, giving strong 
 ---
 
 ## 4. Gradient of BCE
-
-![](./img/logisticregressionanimatedgif.gif)
 
 
 For a single sample:
@@ -199,15 +196,15 @@ $$
 Or, in matrix form (full batch; and be used for non-full batch as well):
 
 $$
-W \leftarrow W - \eta
+\boxed{W \leftarrow W - \eta
 \frac{1}{n}
 X^{\mathsf T}
-(\hat{Y}-Y)
+(\hat{Y}-Y)}
 $$
 
 $$
-b \leftarrow b - \eta \frac{1}{n} \sum_{i=1}^{n}
-(\hat{y}_i-y_i)
+\boxed{b \leftarrow b - \eta \frac{1}{n} \sum_{i=1}^{n}
+(\hat{y}_i-y_i)}
 $$
 
 
@@ -257,6 +254,10 @@ $$
 ---
 
 ## 7. Training Loop in Practice
+
+
+![](./img/logisticregressionanimatedgif.gif)
+
 
 1. Forward pass: compute $z = x W + b$ and $\hat{y} = \sigma(z)$
 2. Compute BCE loss

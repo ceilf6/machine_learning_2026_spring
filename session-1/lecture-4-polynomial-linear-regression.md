@@ -41,7 +41,7 @@ Then apply linear regression on these features.
 For degree $k$, the model becomes:
 
 $$
-\hat{y} = w_1 x + w_2 x^2 + \cdots + w_k x^k + b
+\boxed{\hat{y} = w_1 x + w_2 x^2 + \cdots + w_k x^k + b}
 $$
 
 This is called **polynomial regression**.

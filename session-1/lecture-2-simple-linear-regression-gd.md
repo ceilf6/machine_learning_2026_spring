@@ -15,7 +15,7 @@ We want to find $w$ and $b$ that **minimize the error** between predictions and 
 The error is measured using **Mean Squared Error (MSE)**:
 
 $$
-\mathcal{L}(w, b) = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2
+\boxed{\mathcal{L}(w, b) = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2}
 $$
 
 ![](./img/mse.jpg)
@@ -55,11 +55,11 @@ where $\eta$ is the **learning rate**.
 For MSE, the derivatives are:
 
 $$
-\frac{\partial \mathcal{L}}{\partial w} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)}) x^{(i)}
+\boxed{\frac{\partial \mathcal{L}}{\partial w} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)}) x^{(i)}}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})
+\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})}
 $$
 
 These tell us **how to change $w$ and $b$** to reduce error.

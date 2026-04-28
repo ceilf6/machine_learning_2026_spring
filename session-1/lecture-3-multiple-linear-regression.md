@@ -30,7 +30,7 @@ So we extend the model.
 For $d$ features, the model becomes:
 
 $$
-\hat{y} = w_1 x_1 + w_2 x_2 + \cdots + w_d x_d + b
+\boxed{\hat{y} = w_1 x_1 + w_2 x_2 + \cdots + w_d x_d + b}
 $$
 
 Each feature has its own weight.
@@ -38,7 +38,7 @@ Each feature has its own weight.
 We can write this in vector form using the **row-vector convention**:
 
 $$
-\hat{y} = x W + b
+\boxed{\hat{y} = x W + b}
 $$
 
 where:
@@ -85,7 +85,7 @@ $$
 We still use **Mean Squared Error (MSE)**:
 
 $$
-\mathcal{L}(W, b) = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2
+\boxed{\mathcal{L}(W, b) = \frac{1}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})^2}
 $$
 
 
@@ -104,16 +104,32 @@ $$
 In vector form:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W} = \frac{2}{n} \sum_{i=1}^n x^{(i)\mathsf{T}} (\hat{y}^{(i)} - y^{(i)})
+\boxed{\frac{\partial \mathcal{L}}{\partial W} = \frac{2}{n} \sum_{i=1}^n x^{(i)\mathsf{T}} (\hat{y}^{(i)} - y^{(i)})}
 $$
 
 For the bias:
 
 $$
-\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})
+\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^n (\hat{y}^{(i)} - y^{(i)})}
 $$
 
 We update all parameters using gradient descent.
+
+
+Or, in matrix form (full batch; and be used for non-full batch as well):
+
+$$
+\boxed{W \leftarrow W - \eta
+\frac{2}{n}
+X^{\mathsf T}
+(\hat{Y}-Y)}
+$$
+
+$$
+\boxed{b \leftarrow b - \eta \frac{2}{n} \sum_{i=1}^{n}
+(\hat{y}_i-y_i)}
+$$
+
 
 ---
 
