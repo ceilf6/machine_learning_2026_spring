@@ -100,7 +100,7 @@ $$
 \boxed{\mathcal{L}_\text{BCE} = - \frac{1}{n} \sum_{i=1}^{n} \big( y^{(i)} \log \hat{y}^{(i)} + (1-y^{(i)}) \log (1 - \hat{y}^{(i)}) \big)}
 $$
 
-> log function is ln (log of e) here.
+> **Note:** Here $\log$ denotes the natural logarithm $\ln$ (logarithm base $e$).
 
 **Intuition:**
 
@@ -115,14 +115,16 @@ $$
 
 ### 3.1 Behavior of BCE
 
-| True $$y$$ | Predicted $$\hat{y}$$ | Loss $$-y \log \hat{y} - (1-y)\log(1-\hat{y})$$ |
-| -------- | ------------------- | --------------------------------------------- |
-| 1        | 0.9                 | 0.105                                         |
-| 1        | 0.5                 | 0.693                                         |
-| 1        | 0.01                | 4.605                                         |
-| 0        | 0.9                 | 2.303                                         |
-| 0        | 0.5                 | 0.693                                         |
-| 0        | 0.01                | 0.010                                         |
+Comparison with MSE:
+
+| True $$y$$ | Predicted $$\hat{y}$$ | BCE Loss | MSE Loss |
+| -------- | ------------------- | -------- | -------- |
+| 1        | 0.9                 | 0.105    | 0.01     |
+| 1        | 0.5                 | 0.693    | 0.25     |
+| 1        | 0.01                | 4.605    | 0.9801   |
+| 0        | 0.9                 | 2.303    | 0.81     |
+| 0        | 0.5                 | 0.693    | 0.25     |
+| 0        | 0.01                | 0.010    | 0.0001   |
 
 Notice how **BCE penalizes wrong confident predictions sharply**, giving strong gradient signals for learning.
 
