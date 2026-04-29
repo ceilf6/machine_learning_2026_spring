@@ -42,7 +42,7 @@ Formally, we define an **update rule** to translate gradient information into pa
 The simplest update rule is **gradient descent (GD)**:
 
 $$
-W := W - \eta \frac{\partial \mathcal{L}}{\partial W}
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}
 $$
 
 In row-vector notation for a linear layer:
@@ -99,5 +99,5 @@ Where $t$ denotes the iteration step.
 3. Gradient descent is the simplest **optimization rule**:
 
 $$
-W := W - \eta \frac{\partial \mathcal{L}}{\partial W}
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}
 $$

@@ -8,7 +8,7 @@
 Recall standard gradient descent on the full dataset:
 
 $$
-W := W - \eta \frac{\partial \mathcal{L}}{\partial W}, \quad \mathcal{L} = \frac{1}{N} \sum_{i=1}^N \mathcal{L}_i(W)
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}, \quad \mathcal{L} = \frac{1}{N} \sum_{i=1}^N \mathcal{L}_i(W)
 $$
 
 In row-vector notation for a linear layer:
@@ -44,7 +44,7 @@ For modern datasets:
 Stochastic gradient descent approximates the full gradient by computing it over a **small batch of samples**:
 
 $$
-W := W - \eta \frac{1}{B} \sum_{i \in \mathcal{B}} \frac{\partial \mathcal{L}_i}{\partial W}
+W \leftarrow W - \eta \frac{1}{B} \sum_{i \in \mathcal{B}} \frac{\partial \mathcal{L}_i}{\partial W}
 $$
 
 * $B$ — batch size ($1 < B \ll N$)

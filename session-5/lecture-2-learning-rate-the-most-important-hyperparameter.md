@@ -14,7 +14,7 @@ First, let's open those URLs for visualization/play:
 Recall the basic gradient descent update:
 
 $$
-W := W - \eta \frac{\partial \mathcal{L}}{\partial W}
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}
 $$
 
 In row-vector notation for a linear layer:

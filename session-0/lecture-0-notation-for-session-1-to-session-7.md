@@ -103,6 +103,16 @@ For regression and binary classification with batch size $n$:
 | $\eta$ | Learning rate |
 | $\lambda$ | Regularization strength |
 
+### Parameter Updates
+
+For gradient descent parameter updates, use the **leftarrow** notation:
+
+$$
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}
+$$
+
+This notation clearly indicates an **in-place update** (mutating the parameter) rather than a mathematical equality or assignment. Do not use `:=` or `\gets` for parameter updates.
+
 ### Loss and Gradients
 
 | Symbol | Meaning |

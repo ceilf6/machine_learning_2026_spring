@@ -37,11 +37,11 @@ The idea:
 For $w$ and $b$:
 
 $$
-w \gets w - \eta \frac{\partial \mathcal{L}}{\partial w}
+w \leftarrow w - \eta \frac{\partial \mathcal{L}}{\partial w}
 $$
 
 $$
-b \gets b - \eta \frac{\partial \mathcal{L}}{\partial b}
+b \leftarrow b - \eta \frac{\partial \mathcal{L}}{\partial b}
 $$
 
 where $\eta$ is the **learning rate**.
@@ -79,11 +79,11 @@ These tell us **how to change $w$ and $b$** to reduce error.
    * Update parameters:
 
    $$
-   w \gets w - \eta \frac{\partial \mathcal{L}}{\partial w}
+   w \leftarrow w - \eta \frac{\partial \mathcal{L}}{\partial w}
    $$
 
    $$
-   b \gets b - \eta \frac{\partial \mathcal{L}}{\partial b}
+   b \leftarrow b - \eta \frac{\partial \mathcal{L}}{\partial b}
    $$
 
 3. Stop when loss **converges** or reaches **max iterations**
