@@ -14,9 +14,7 @@ Chinese version:
 
 English version:
 - [GitHub Pull Request (1/3) - within one team](https://www.bilibili.com/video/BV1LgcfzyEq7/)
-
 - [GitHub Pull Request (2/3) - across teams](https://www.bilibili.com/video/BV1RgcfzCEpf/)
-
 - [GitHub Pull Request (3/3) - conflict resolving](https://www.bilibili.com/video/BV1RgcfzCEpf/)
 
 Here are three practices that you should do with your teammate, as shown in the videos. 
