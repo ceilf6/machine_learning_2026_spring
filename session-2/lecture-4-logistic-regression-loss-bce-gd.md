@@ -100,6 +100,8 @@ $$
 \boxed{\mathcal{L}_\text{BCE} = - \frac{1}{n} \sum_{i=1}^{n} \big( y^{(i)} \log \hat{y}^{(i)} + (1-y^{(i)}) \log (1 - \hat{y}^{(i)}) \big)}
 $$
 
+> log function is ln (log of e) here.
+
 **Intuition:**
 
 * If $y^{(i)} = 1$, the first term $- \log \hat{y}^{(i)}$ dominates
