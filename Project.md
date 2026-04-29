@@ -44,3 +44,44 @@ Bilibili videos:
 
 Be default, you agree to share your videos on Bilibili by the prof as well.
 
+
+
+## Step 1 of the project (FOR EACH STUDENT. NO TEAM UP YET):
+
+Use an AI tool (e.g. OpenClaw),
+
+go to:
+
+https://github.com/zhangqi444/open-forge
+
+DO EVERYTHING WITH AI !
+
+give it a star; fork this repo to your own GitHub account; 
+Ideally, use WSL 2 or Docker for Win,
+
+for macos, use Docker.
+
+Or, you can use a cloud VM.
+
+This project is for each of the students. So no need to team up.
+
+Again, the idea is to DO EVERYTHING WITH AI, even for forking, even for giving a star.
+
+
+## Step 2 of the project (Now you can team up):
+
+Use an AI tool (e.g. OpenClaw),
+
+go to:
+
+https://github.com/zhangqi444/open-forge
+
+Test the project on your environment to see if things are working well;
+
+If you find an issue, submit an issue to the repo https://github.com/zhangqi444/open-forge
+. Each time you submit an issue, maybe you can provide some justified (very well justified) improvement suggestions, in the issue.
+
+NO CHINESE CHARACTERS! EVERYTHING SHOULD BE DONE IN ENGLISH!
+
+
+
