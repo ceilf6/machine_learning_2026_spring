@@ -8,7 +8,7 @@
 Recall standard gradient descent on the full dataset:
 
 $$
-W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}, \quad \mathcal{L} = \frac{1}{N} \sum_{i=1}^N \mathcal{L}_i(W)
+W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}, \quad \mathcal{L} = \frac{1}{n} \sum_{i=1}^n \mathcal{L}_i(W)
 $$
 
 In row-vector notation for a linear layer:
@@ -16,10 +16,10 @@ $$
 z = xW + b, \quad W^{(t+1)} = W^{(t)} - \eta \frac{\partial \mathcal{L}}{\partial W^{(t)}}
 $$
 
-* $N$ — total number of training samples
+* $n$ — total number of training samples
 * $\mathcal{L}_i(W)$ — loss for the $i$-th sample
 
-**Observation:** Computing $\frac{\partial \mathcal{L}}{\partial W}$ requires summing over all $N$ samples each step.
+**Observation:** Computing $\frac{\partial \mathcal{L}}{\partial W}$ requires summing over all $n$ samples each step.
 
 * Accurate gradient estimates
 * Smooth convergence
@@ -31,7 +31,7 @@ $$
 
 For modern datasets:
 
-* $N$ can be millions or more
+* $n$ can be millions or more
 * Each iteration takes a long time
 * Full-batch updates are slow, even if precise
 
@@ -47,7 +47,7 @@ $$
 W \leftarrow W - \eta \frac{1}{B} \sum_{i \in \mathcal{B}} \frac{\partial \mathcal{L}_i}{\partial W}
 $$
 
-* $B$ — batch size ($1 < B \ll N$)
+* $B$ — batch size ($1 < B \ll n$)
 * $\mathcal{B}$ — set of indices for the current mini-batch
 
 **Advantages:**

@@ -73,8 +73,11 @@ Moving averages start at 0, causing **initial bias**.
 Corrected moments:
 
 $$
-\hat{m}^{(t)} = \frac{m^{(t)}}{1 - \beta_1^t}, \quad
-\hat{v}^{(t)} = \frac{v^{(t)}}{1 - \beta_2^t}
+\hat{m}^{(t)} = \frac{m^{(t)}}{1-\beta_1^t}
+$$
+
+$$
+\hat{v}^{(t)} = \frac{v^{(t)}}{1-\beta_2^t}
 $$
 
 * Ensures **early updates are not underestimated**

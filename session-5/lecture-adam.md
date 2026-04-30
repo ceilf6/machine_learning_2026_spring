@@ -348,11 +348,11 @@ Because moving averages start at zero, early estimates are biased.
 Adam corrects this using:
 
 $$
-\hat m^{(t)} = \frac{m^{(t)}}{1-\beta_1^t}
+\hat{m}^{(t)} = \frac{m^{(t)}}{1-\beta_1^t}
 $$
 
 $$
-\hat v^{(t)} = \frac{v^{(t)}}{1-\beta_2^t}
+\hat{v}^{(t)} = \frac{v^{(t)}}{1-\beta_2^t}
 $$
 
 The final update rule with bias correction becomes:

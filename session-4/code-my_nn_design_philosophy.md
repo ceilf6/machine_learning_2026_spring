@@ -27,10 +27,10 @@ Each transformation is implemented as a **Layer object** with two methods:
 Thus the neural network is represented as a **function composition**:
 
 $$
-f(x) = L_n \circ L_{n-1} \circ \cdots \circ L_2 \circ L_1(x)
+f(x) = L^{(n)} \circ L^{(n-1)} \circ \cdots \circ L^{(2)} \circ L^{(1)}(x)
 $$
 
-Where each $L_i$ is a layer transformation.
+Where each $L^{(i)}$ is a layer transformation.
 
 This architecture follows the same conceptual model used by modern deep learning frameworks:
 
@@ -75,25 +75,25 @@ for layer in network:
 
 Let's establish clear notation for the forward pass:
 
-- $\mathbf{x}^{(0)}$ — input data (batch of 784-dimensional vectors)
-- $\mathbf{z}^{(l)}$ — **pre-activation** (output of Dense layer before activation)
-- $\mathbf{a}^{(l)}$ — **activation** (output after applying activation function)
-- $\mathbf{W}^{(l)}$ — weight matrix of layer $l$
-- $\mathbf{b}^{(l)}$ — bias vector of layer $l$
+- $x^{(0)}$ — input data (batch of 784-dimensional vectors)
+- $z^{(l)}$ — **pre-activation** (output of Dense layer before activation)
+- $a^{(l)}$ — **activation** (output after applying activation function)
+- $W^{(l)}$ — weight matrix of layer $l$
+- $b^{(l)}$ — bias vector of layer $l$
 
 The forward pass computes:
 
 $$
 \begin{align}
-\mathbf{z}^{(1)} &= \mathbf{a}^{(0)} \mathbf{W}^{(1)} + \mathbf{b}^{(1)} \quad &\text{(Dense layer 1)} \\
-\mathbf{a}^{(1)} &= \text{ReLU}(\mathbf{z}^{(1)}) \quad &\text{(Activation 1)} \\
-\mathbf{z}^{(2)} &= \mathbf{a}^{(1)} \mathbf{W}^{(2)} + \mathbf{b}^{(2)} \quad &\text{(Dense layer 2)} \\
-\mathbf{a}^{(2)} &= \text{ReLU}(\mathbf{z}^{(2)}) \quad &\text{(Activation 2)} \\
-\mathbf{z}^{(3)} &= \mathbf{a}^{(2)} \mathbf{W}^{(3)} + \mathbf{b}^{(3)} \quad &\text{(Dense layer 3, logits)}
+z^{(1)} &= a^{(0)} W^{(1)} + b^{(1)} \quad &\text{(Dense layer 1)} \\
+a^{(1)} &= \text{ReLU}(z^{(1)}) \quad &\text{(Activation 1)} \\
+z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)} \quad &\text{(Dense layer 2)} \\
+a^{(2)} &= \text{ReLU}(z^{(2)}) \quad &\text{(Activation 2)} \\
+z^{(3)} &= a^{(2)} W^{(3)} + b^{(3)} \quad &\text{(Dense layer 3, logits)}
 \end{align}
 $$
 
-Where $\mathbf{a}^{(0)} = \mathbf{x}^{(0)}$ is the input, and $\mathbf{z}^{(3)}$ are the final **logits** (pre-softmax scores).
+Where $a^{(0)} = x^{(0)}$ is the input, and $z^{(3)}$ are the final **logits** (pre-softmax scores).
 
 ---
 
@@ -133,8 +133,8 @@ activations[4] = output of Dense(32, 10)      = z^(3) (logits)
 
 In deep learning literature:
 
-- **Pre-activation**: Output of linear transformation (e.g., $\mathbf{z} = \mathbf{xW} + \mathbf{b}$)
-- **Activation**: Output after applying activation function (e.g., $\mathbf{a} = \text{ReLU}(\mathbf{z})$)
+- **Pre-activation**: Output of linear transformation (e.g., $z = xW + b$)
+- **Activation**: Output after applying activation function (e.g., $a = \text{ReLU}(z)$)
 
 In this code, `activations` stores **both** pre-activations and activations sequentially.
 
@@ -178,14 +178,14 @@ $$
 A Dense (fully connected) layer performs an **affine transformation**:
 
 $$
-\mathbf{y} = \mathbf{x} \mathbf{W} + \mathbf{b}
+y = x W + b
 $$
 
 Where:
-- $\mathbf{x} \in \mathbb{R}^{B \times n_{in}}$ — input batch ($B$ = batch size)
-- $\mathbf{W} \in \mathbb{R}^{n_{in} \times n_{out}}$ — weight matrix
-- $\mathbf{b} \in \mathbb{R}^{n_{out}}$ — bias vector
-- $\mathbf{y} \in \mathbb{R}^{B \times n_{out}}$ — output batch
+- $x \in \mathbb{R}^{B \times n_{in}}$ — input batch ($B$ = batch size)
+- $W \in \mathbb{R}^{n_{in} \times n_{out}}$ — weight matrix
+- $b \in \mathbb{R}^{n_{out}}$ — bias vector
+- $y \in \mathbb{R}^{B \times n_{out}}$ — output batch
 
 ### Code Implementation
 
@@ -215,7 +215,7 @@ When we connect `Dense(64, 32)` after `ReLU()`:
 [64 neurons] → [32 neurons]
 ```
 
-Each of the 32 output neurons receives input from **all 64 input neurons** via the weight matrix $\mathbf{W} \in \mathbb{R}^{64 \times 32}$.
+Each of the 32 output neurons receives input from **all 64 input neurons** via the weight matrix $W \in \mathbb{R}^{64 \times 32}$.
 
 ---
 
@@ -289,7 +289,7 @@ Computing softmax then cross-entropy separately:
 
 $$
 \begin{align}
-\mathbf{p} &= \text{softmax}(\mathbf{z}) = \frac{e^{\mathbf{z}}}{\sum_j e^{z_j}} \\
+p &= \text{softmax}(z) = \frac{e^{z}}{\sum_j e^{z_j}} \\
 \mathcal{L} &= -\sum_i y_i \log(p_i)
 \end{align}
 $$
@@ -309,12 +309,12 @@ Subtracting the max prevents overflow while maintaining mathematical equivalence
 The gradient of cross-entropy loss with respect to logits simplifies beautifully:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}} = \mathbf{p} - \mathbf{y}
+\frac{\partial \mathcal{L}}{\partial z} = p - y
 $$
 
 Where:
-- $\mathbf{p}$ = predicted probabilities (after softmax)
-- $\mathbf{y}$ = true labels (one-hot encoded)
+- $p$ = predicted probabilities (after softmax)
+- $y$ = true labels (one-hot encoded)
 
 This simple form is directly returned:
 
@@ -342,15 +342,15 @@ def forward(network, X):
 
 ### Execution Flow
 
-Given input batch $\mathbf{X} \in \mathbb{R}^{B \times 784}$:
+Given input batch $X \in \mathbb{R}^{B \times 784}$:
 
-1. **Layer 0 (Dense)**: $\mathbf{z}^{(1)} = \mathbf{X} \mathbf{W}^{(1)} + \mathbf{b}^{(1)}$ → shape $(B, 64)$
-2. **Layer 1 (ReLU)**: $\mathbf{a}^{(1)} = \max(0, \mathbf{z}^{(1)})$ → shape $(B, 64)$
-3. **Layer 2 (Dense)**: $\mathbf{z}^{(2)} = \mathbf{a}^{(1)} \mathbf{W}^{(2)} + \mathbf{b}^{(2)}$ → shape $(B, 32)$
-4. **Layer 3 (ReLU)**: $\mathbf{a}^{(2)} = \max(0, \mathbf{z}^{(2)})$ → shape $(B, 32)$
-5. **Layer 4 (Dense)**: $\mathbf{z}^{(3)} = \mathbf{a}^{(2)} \mathbf{W}^{(3)} + \mathbf{b}^{(3)}$ → shape $(B, 10)$
+1. **Layer 0 (Dense)**: $z^{(1)} = X W^{(1)} + b^{(1)}$ → shape $(B, 64)$
+2. **Layer 1 (ReLU)**: $a^{(1)} = \max(0, z^{(1)})$ → shape $(B, 64)$
+3. **Layer 2 (Dense)**: $z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}$ → shape $(B, 32)$
+4. **Layer 3 (ReLU)**: $a^{(2)} = \max(0, z^{(2)})$ → shape $(B, 32)$
+5. **Layer 4 (Dense)**: $z^{(3)} = a^{(2)} W^{(3)} + b^{(3)}$ → shape $(B, 10)$
 
-The final output $\mathbf{z}^{(3)}$ contains **logits** (unnormalized scores) for each of the 10 digit classes.
+The final output $z^{(3)}$ contains **logits** (unnormalized scores) for each of the 10 digit classes.
 
 ### Why Store All Activations?
 
@@ -374,19 +374,19 @@ $$
 \frac{\partial f}{\partial x} = \frac{\partial f}{\partial g} \cdot \frac{\partial g}{\partial x}
 $$
 
-In a neural network with layers $L_1, L_2, \ldots, L_n$:
+In a neural network with layers $L^{(1)}, L^{(2)}, \ldots, L^{(n)}$:
 
 $$
-\mathcal{L} = f(L_n(\cdots L_2(L_1(\mathbf{x}))))
+\mathcal{L} = f(L^{(n)}(\cdots L^{(2)}(L^{(1)}(x))))
 $$
 
-To find $\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(i)}}$ for layer $i$, we need:
+To find $\frac{\partial \mathcal{L}}{\partial W^{(i)}}$ for layer $i$, we need:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(i)}} = \frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(i)}} \cdot \frac{\partial \mathbf{z}^{(i)}}{\partial \mathbf{W}^{(i)}}
+\frac{\partial \mathcal{L}}{\partial W^{(i)}} = \frac{\partial \mathcal{L}}{\partial z^{(i)}} \cdot \frac{\partial z^{(i)}}{\partial W^{(i)}}
 $$
 
-Where $\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(i)}}$ is computed by propagating gradients backward from the loss.
+Where $\frac{\partial \mathcal{L}}{\partial z^{(i)}}$ is computed by propagating gradients backward from the loss.
 
 ---
 
@@ -426,7 +426,7 @@ loss, grad_logits = softmax_crossentropy_with_logits(logits, y)
 
 This returns:
 - `loss`: scalar value of cross-entropy loss
-- `grad_logits`: $\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(3)}}$ with shape $(B, 10)$
+- `grad_logits`: $\frac{\partial \mathcal{L}}{\partial z^{(3)}}$ with shape $(B, 10)$
 
 This is the **starting point** for backpropagation.
 
@@ -451,22 +451,22 @@ Each `layer.backward(grad_output)` does two things:
 
 ### Gradient Flow Notation
 
-Let $\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(l)}}$ denote the gradient flowing backward into layer $l$.
+Let $\frac{\partial \mathcal{L}}{\partial z^{(l)}}$ denote the gradient flowing backward into layer $l$.
 
 The backward pass computes:
 
 $$
 \begin{align}
-\text{At Layer 4:} \quad &\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(3)}} \text{ (given from loss)} \\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(3)}}, \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(3)}} \text{ (computed and used for updates)} \\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{a}^{(2)}} \text{ (returned)} \\
+\text{At Layer 4:} \quad &\frac{\partial \mathcal{L}}{\partial z^{(3)}} \text{ (given from loss)} \\
+&\frac{\partial \mathcal{L}}{\partial W^{(3)}}, \frac{\partial \mathcal{L}}{\partial b^{(3)}} \text{ (computed and used for updates)} \\
+&\frac{\partial \mathcal{L}}{\partial a^{(2)}} \text{ (returned)} \\
 \\
-\text{At Layer 3:} \quad &\frac{\partial \mathcal{L}}{\partial \mathbf{a}^{(2)}} \text{ (received from Layer 4)} \\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(2)}} \text{ (returned)} \\
+\text{At Layer 3:} \quad &\frac{\partial \mathcal{L}}{\partial a^{(2)}} \text{ (received from Layer 4)} \\
+&\frac{\partial \mathcal{L}}{\partial z^{(2)}} \text{ (returned)} \\
 \\
-\text{At Layer 2:} \quad &\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(2)}} \text{ (received from Layer 3)} \\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(2)}}, \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(2)}} \text{ (computed and used)} \\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{a}^{(1)}} \text{ (returned)} \\
+\text{At Layer 2:} \quad &\frac{\partial \mathcal{L}}{\partial z^{(2)}} \text{ (received from Layer 3)} \\
+&\frac{\partial \mathcal{L}}{\partial W^{(2)}}, \frac{\partial \mathcal{L}}{\partial b^{(2)}} \text{ (computed and used)} \\
+&\frac{\partial \mathcal{L}}{\partial a^{(1)}} \text{ (returned)}
 \end{align}
 $$
 
@@ -492,22 +492,22 @@ def backward(self, grad_output):
 
 ### Derivation
 
-Given forward pass: $\mathbf{y} = \mathbf{x} \mathbf{W} + \mathbf{b}$
+Given forward pass: $y = x W + b$
 
-And incoming gradient: $\frac{\partial \mathcal{L}}{\partial \mathbf{y}}$ (denoted `grad_output`)
+And incoming gradient: $\frac{\partial \mathcal{L}}{\partial y}$ (denoted `grad_output`)
 
 We need to compute:
 
 #### 1. Gradient w.r.t. Weights
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}} = \mathbf{x}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}}
+\frac{\partial \mathcal{L}}{\partial W} = x^T \frac{\partial \mathcal{L}}{\partial y}
 $$
 
 **Dimensions**:
-- $\mathbf{x}$: $(B, n_{in})$
-- $\frac{\partial \mathcal{L}}{\partial \mathbf{y}}$: $(B, n_{out})$
-- $\mathbf{x}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}}$: $(n_{in}, B) \times (B, n_{out}) = (n_{in}, n_{out})$ ✓
+- $x$: $(B, n_{in})$
+- $\frac{\partial \mathcal{L}}{\partial y}$: $(B, n_{out})$
+- $x^T \frac{\partial \mathcal{L}}{\partial y}$: $(n_{in}, B) \times (B, n_{out}) = (n_{in}, n_{out})$ ✓
 
 **Code**:
 ```python
@@ -519,7 +519,7 @@ grad_weights = np.dot(self.input.T, grad_output)
 #### 2. Gradient w.r.t. Biases
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}} = \sum_{i=1}^B \frac{\partial \mathcal{L}}{\partial \mathbf{y}_i}
+\frac{\partial \mathcal{L}}{\partial b} = \sum_{i=1}^B \frac{\partial \mathcal{L}}{\partial y_i}
 $$
 
 **Why sum over batch?** Each bias $b_j$ affects **all samples** in the batch equally, so we sum their gradient contributions.
@@ -534,12 +534,12 @@ Summing over `axis=0` (batch dimension) gives a vector of shape $(n_{out},)$.
 #### 3. Gradient w.r.t. Input
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{x}} = \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{W}^T
+\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} W^T
 $$
 
 **Dimensions**:
-- $\frac{\partial \mathcal{L}}{\partial \mathbf{y}}$: $(B, n_{out})$
-- $\mathbf{W}^T$: $(n_{out}, n_{in})$
+- $\frac{\partial \mathcal{L}}{\partial y}$: $(B, n_{out})$
+- $W^T$: $(n_{out}, n_{in})$
 - Product: $(B, n_{out}) \times (n_{out}, n_{in}) = (B, n_{in})$ ✓
 
 **Code**:
@@ -555,8 +555,8 @@ After computing gradients, parameters are updated:
 
 $$
 \begin{align}
-\mathbf{W} &\leftarrow \mathbf{W} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{W}} \\
-\mathbf{b} &\leftarrow \mathbf{b} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{b}}
+W &\leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W} \\
+b &\leftarrow b - \eta \frac{\partial \mathcal{L}}{\partial b}
 \end{align}
 $$
 
@@ -582,7 +582,7 @@ def backward(self, grad_output):
 
 ### Derivation
 
-Given forward pass: $\mathbf{a} = \max(0, \mathbf{z})$
+Given forward pass: $a = \max(0, z)$
 
 The element-wise derivative is:
 
@@ -596,7 +596,7 @@ $$
 By chain rule:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}} = \frac{\partial \mathcal{L}}{\partial \mathbf{a}} \odot \frac{\partial \mathbf{a}}{\partial \mathbf{z}}
+\frac{\partial \mathcal{L}}{\partial z} = \frac{\partial \mathcal{L}}{\partial a} \odot \frac{\partial a}{\partial z}
 $$
 
 Where $\odot$ denotes element-wise multiplication.
@@ -709,7 +709,7 @@ def predict(network, X):
 Forward pass through the network produces unnormalized scores:
 
 $$
-\mathbf{z} = f_{\text{network}}(\mathbf{X}) \in \mathbb{R}^{B \times 10}
+z = f_{\text{network}}(X) \in \mathbb{R}^{B \times 10}
 $$
 
 ### Step 2: Convert to Probabilities
@@ -857,10 +857,10 @@ loss = -np.sum(one_hot_labels * np.log(softmax_probs + 1e-9)) / batch_size
 
 #### Mathematical Definition
 
-For two matrices $\mathbf{A}, \mathbf{B} \in \mathbb{R}^{m \times n}$:
+For two matrices $A, B \in \mathbb{R}^{m \times n}$:
 
 $$
-(\mathbf{A} \odot \mathbf{B})_{ij} = A_{ij} \cdot B_{ij}
+(A \odot B)_{ij} = A_{ij} \cdot B_{ij}
 $$
 
 Where $\odot$ denotes the Hadamard product.

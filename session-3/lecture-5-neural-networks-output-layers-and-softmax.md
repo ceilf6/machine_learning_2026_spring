@@ -45,7 +45,7 @@ Here:
 We typically use **Mean Squared Error (MSE)**:
 
 $$
-\mathcal{L} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+\mathcal{L} = \frac{1}{n} \sum_{i=1}^{n} (y^{(i)} - \hat{y}^{(i)})^2
 $$
 
 * MSE directly measures the squared difference between predicted and true values
@@ -74,7 +74,7 @@ $$
 Binary Cross-Entropy (BCE) is commonly used:
 
 $$
-\mathcal{L} = - \frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log \hat{y}_i + (1-y_i) \log (1-\hat{y}_i) \right]
+\mathcal{L} = - \frac{1}{n} \sum_{i=1}^{n} \left[ y^{(i)} \log \hat{y}^{(i)} + (1-y^{(i)}) \log (1-\hat{y}^{(i)}) \right]
 $$
 
 ---

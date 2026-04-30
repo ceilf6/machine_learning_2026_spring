@@ -72,7 +72,7 @@ Instead of one neuron, we use multiple neurons in parallel.
 ### Vectorized form
 
 $$
-z = xW + b
+z = x W + b
 $$
 
 $$
