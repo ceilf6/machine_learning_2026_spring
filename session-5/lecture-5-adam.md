@@ -1,5 +1,7 @@
 #  Adam (Adaptive Moment Estimation)
 
+![](./img/9.gif)
+
 ---
 
 ## 1. Motivation
@@ -40,6 +42,9 @@ $$
 
 ## 3. Adam — First and Second Moments
 
+![](./img/5.gif)
+
+
 Adam tracks two moving averages:
 
 ### 3.1 First Moment — Mean of Gradients
@@ -61,27 +66,40 @@ v^{(t)} = \beta_2 v^{(t-1)} + (1-\beta_2) \big(g^{(t)}\big)^2
 $$
 
 * Measures **gradient magnitude and variability**
-* Large $v$ → volatile gradients → reduce step size
-* $\beta_2$ typically 0.999
+* **Represents the "Volatility" of the gradients:**
+    * Large $v$ → **High volatility** (unstable/steep) → reduce step size for safety.
+    * Small $v$ → **Low volatility** (stable/flat) → increase step size to speed up.
+* $\beta_2$ typically 0.999 (long-term memory of volatility)
 
 ---
 
+
 ## 4. Bias Correction
 
-Moving averages start at 0, causing **initial bias**.
+Moving averages ($m^{(t)}, v^{(t)}$) are initialized at **0**. Since $\beta_1$ and $\beta_2$ are typically very close to 1 (e.g., 0.999), the moving averages are heavily "dragged" toward zero during the first few iterations.
 
-Corrected moments:
-
-$$
-\hat{m}^{(t)} = \frac{m^{(t)}}{1-\beta_1^t}
-$$
+To fix this, we compute **bias-corrected** moments:
 
 $$
-\hat{v}^{(t)} = \frac{v^{(t)}}{1-\beta_2^t}
+\hat{m}^{(t)} = \frac{m^{(t)}}{1-(\beta_1)^t}
 $$
 
-* Ensures **early updates are not underestimated**
-* Important for stable training at the beginning
+$$
+\hat{v}^{(t)} = \frac{v^{(t)}}{1-(\beta_2)^t}
+$$
+
+> [!CAUTION]
+> **Notation Alert:** 
+> In the expressions above, **$t$ is an exponent**, not an index. 
+> *   $\beta_1, \beta_2$: Constant hyperparameters (e.g., 0.9, 0.999).
+> *   $(\beta)^t$: The value of $\beta$ raised to the **power of the current time step $t$**.
+
+### Why is this necessary?
+*   **The "Cold Start" Problem:** Without correction, $m^{(1)}$ would be $(1-\beta_1)g^{(1)}$. If $\beta_1 = 0.9$, your first update is only **10%** of what it should be.
+*   **The Fix:** At $t=1$, the denominator $1-(0.9)^1 = 0.1$. Dividing by $0.1$ effectively scales the moment back up to its true magnitude.
+*   **Self-Vanishing:** As training progresses ($t \to \infty$), the term $(\beta)^t$ quickly approaches **0**. The correction factor $1/(1-\beta^t)$ becomes **1**, meaning the correction naturally fades away once the moving averages become stable.
+
+**Key Outcome:** Ensures **early updates are not underestimated**, preventing the model from getting "stuck" or moving too slowly during the first few batches.
 
 ---
 
@@ -106,6 +124,9 @@ Where:
 ---
 
 ## 6. Geometric Intuition
+
+![](./img/8.gif)
+
 
 1. **First moment $m$** → smooths noisy gradients (like momentum)
 2. **Second moment $v$** → scales updates according to gradient volatility

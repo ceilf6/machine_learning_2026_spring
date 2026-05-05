@@ -48,6 +48,7 @@ Intuitively:
 
 ### 3.1 Too Small
 
+![](./lr_0.001.gif)
 
 * Training progresses slowly
 * May require many iterations
@@ -55,11 +56,15 @@ Intuitively:
 
 ### 3.2 Too Large
 
+![](./lr_1.gif)
+
 * Updates overshoot the optimum
 * Loss may oscillate or diverge
 * Training can fail entirely
 
 ### 3.3 Just Right
+
+![](./lr_0.03.gif)
 
 $$
 \eta \approx \text{optimal}
@@ -70,23 +75,7 @@ $$
 
 ---
 
-## 4. Learning as a Dynamic Process
-
-Optimization is iterative — each step depends on the previous one:
-
-$$
-W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}
-$$
-
-* **Too small** → sluggish movement in the loss landscape
-* **Too large** → oscillations or divergence
-* **Proper $\eta$** → smooth convergence
-
-The learning rate essentially governs the **dynamics** of the optimization process.
-
----
-
-## 5. Practical Learning Rate Values
+## 4. Practical Learning Rate Values
 
 Typical ranges depend on model and optimizer:
 
@@ -97,11 +86,10 @@ Typical ranges depend on model and optimizer:
 | Adaptive optimizers     | 0.001         |
 | Very large models       | 0.0001        |
 
-> Rule of thumb: Tune $\eta$ in powers of 10 to quickly find a workable range.
 
 ---
 
-## 6. Learning Rate Schedules
+## 5. Learning Rate Schedules
 
 Rarely do we keep $\eta$ constant. **Schedules** adapt it over training to match optimization needs.
 
@@ -118,7 +106,7 @@ Rarely do we keep $\eta$ constant. **Schedules** adapt it over training to match
 
 ---
 
-## 7. Common Schedules
+## 6. Common Schedules
 
 ### Step Decay
 
@@ -151,7 +139,7 @@ Smoothly varies $\eta$ following a cosine curve:
 
 ---
 
-## 8. Learning Rate Warmup
+## 7. Learning Rate Warmup
 
 Large models often use a **warmup phase**:
 
@@ -176,7 +164,7 @@ Warmup is now standard in large-scale models.
 
 ---
 
-## 9. Summary
+## 8. Summary
 
 * Learning rate $\eta$ scales gradient updates
 * Too small → painfully slow learning

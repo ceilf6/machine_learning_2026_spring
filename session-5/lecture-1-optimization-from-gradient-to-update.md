@@ -1,5 +1,7 @@
 # From Gradient to Parameter Update
 
+![](img/0.gif)
+
 ---
 
 ## 1. Review — What We Already Have
@@ -38,6 +40,9 @@ Formally, we define an **update rule** to translate gradient information into pa
 ---
 
 ## 4. Gradient Descent Update Rule
+
+![](img/3.gif)
+
 
 The simplest update rule is **gradient descent (GD)**:
 
@@ -88,7 +93,7 @@ Where $t$ denotes the iteration step.
 
 * Gradient alone tells us **where to go**.
 * Update rule tells us **how far to go**.
-* Step size $\eta$ controls **speed and stability** of learning.
+* Step size $\eta$ controls **speed** of learning.
 
 ---
 

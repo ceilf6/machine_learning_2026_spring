@@ -1,5 +1,7 @@
 # From Gradient Descent to Stochastic Gradient Descent
 
+![](./img/s1.jpg)
+
 
 ---
 
@@ -47,7 +49,7 @@ $$
 W \leftarrow W - \eta \frac{1}{B} \sum_{i \in \mathcal{B}} \frac{\partial \mathcal{L}_i}{\partial W}
 $$
 
-* $B$ — batch size ($1 < B \ll n$)
+* $B$ — batch size ($1 \le B < n$)
 * $\mathcal{B}$ — set of indices for the current mini-batch
 
 **Advantages:**
@@ -60,14 +62,18 @@ $$
 
 ## 4. Intuition: Noisy Descent Helps
 
+![](./img/s2.jpg)
+
+
 * Mini-batch updates are **noisy approximations** of the true gradient
 * Noise allows escaping **shallow local minima or saddle points**
-* Large datasets → exact gradient may overfit to specific geometry; stochastic updates add robustness
 
 **Visualization:** Descending a bumpy valley:
 
 * Full-batch GD → precise but slow path
 * SGD (mini-batch) → jittery path that explores valleys and escapes plateaus
+
+![](./img/saddlepoint.jpg)
 
 ---
 

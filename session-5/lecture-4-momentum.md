@@ -1,5 +1,10 @@
 #  Momentum
 
+
+![](./img/7.gif)
+
+
+
 ---
 
 ## 1. Review — Mini-Batch Gradient Descent
@@ -19,6 +24,10 @@ $$
 ---
 
 ## 2. Motivation for Momentum
+
+
+![](./img/1.gif)
+
 
 Imagine descending a **long, narrow valley**:
 
