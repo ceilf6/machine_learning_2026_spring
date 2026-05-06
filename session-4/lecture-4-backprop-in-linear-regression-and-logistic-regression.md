@@ -1,5 +1,6 @@
 # Backpropagation in Linear Regression and Logistic Regression
 
+![](./img/bplogistic.jpg)
 
 ---
 
