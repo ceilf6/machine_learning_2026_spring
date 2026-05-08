@@ -41,8 +41,6 @@ df = pd.read_csv(DATA_DIR / "imdb_balanced_10k.csv")
 ```
 
 ```python
-print("Dataset loaded.")
-
 print("Total reviews:", len(df))
 
 print("\nLabel distribution:")
@@ -69,8 +67,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 ```
 
 ```python
-print("Training samples:", len(X_train))
-
 print("Testing samples:", len(X_test))
 
 print("\nFirst training review:")
@@ -93,8 +89,6 @@ X_test_tfidf = vectorizer.transform(X_test)
 ```
 
 ```python
-print("TF-IDF conversion complete.")
-
 print("Training shape:", X_train_tfidf.shape)
 
 print("Testing shape:", X_test_tfidf.shape)
@@ -121,10 +115,6 @@ print(feature_names[:20])
 model = LogisticRegression()
 
 model.fit(X_train_tfidf, y_train)
-```
-
-```python
-print("Model training complete.")
 ```
 
 ---
