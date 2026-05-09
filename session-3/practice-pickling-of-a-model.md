@@ -3,7 +3,7 @@
 
 > [!INFO]
 > Your task:
-> Create a GitHub repo, 
+> Create a GitHub repo for this task, 
 run the code, upload things (code and pickled files) to the GitHub repo.
 > Send the GitHub URL in the WeChat group.
 
