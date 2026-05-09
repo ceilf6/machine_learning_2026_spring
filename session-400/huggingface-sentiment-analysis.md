@@ -1,5 +1,6 @@
 # Hugging Face Ready-to-Use Sentiment Analysis
 
+
 ## Objective
 
 We use Hugging Face pretrained pipelines.
@@ -340,3 +341,27 @@ for item in sample_results:
 
     print("Score:", item["score"])
 ```
+
+
+## Your task:
+
+As we can see for the huggingface sentiment analysis task,
+
+with: 
+
+```python
+classifier = pipeline(
+    task="sentiment-analysis",
+    model="distilbert-base-uncased-finetuned-sst-2-english",
+    tokenizer="distilbert-base-uncased-finetuned-sst-2-english",
+    framework="pt"
+)
+```
+
+the model is not strong enough (88% of accuracy for the first 50 reviews, just in per with Bag Of Word + Logistic Regression). the model is kind of small and out-dated.
+
+So, i would like you guys to check out other models.
+
+SEND YOUR FINDINGS HERE IN THE WECHAT GROUP, the model and the accuracy.
+
+Ideally, we should be able to find a good model with, let's say, higher than 95% of accuracy.
