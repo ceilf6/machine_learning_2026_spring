@@ -58,6 +58,7 @@ $$
 >   $$
 >   \delta^{(l)} = \frac{\partial \mathcal{L}}{\partial z^{(l)}}
 >   $$
+>
 >   It is a gradient w.r.t. an **intermediate quantity** (the pre-activation $z^{(l)}$), used to propagate information backward efficiently.
 >
 > - **$g$** is usually reserved for the *parameter gradient* used by the optimizer update, e.g.
