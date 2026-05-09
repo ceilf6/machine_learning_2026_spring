@@ -85,7 +85,7 @@ if __name__ == "__main__":
         "directory",
         nargs="?",
         default="./audio-or-video-files-to-transcribe",
-        help="Directory containing video/audio files (default: ./e)",
+        help="Directory containing video/audio files (default: ./audio-or-video-files-to-transcribe)",
     )
     parser.add_argument(
         "--model",
