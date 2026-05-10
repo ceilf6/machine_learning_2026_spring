@@ -48,7 +48,7 @@ These stored $z^{(l)}$ and $a^{(l)}$ are **required for backpropagation**.
 Define **error signal** for each layer:
 
 $$
-\delta^{(l)} = \frac{\partial \mathcal{L}}{\partial z^{(l)}} \in \mathbb{R}^{1 \times n_l}
+\underbrace{\delta^{(l)}}_{\text{error signal}} = \underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l)}}}_{\text{gradient w.r.t. pre-activation}} \in \mathbb{R}^{1 \times n_l}
 $$
 
 Where $n_l$ is the number of neurons in layer $l$.
@@ -56,7 +56,7 @@ Where $n_l$ is the number of neurons in layer $l$.
 ### Output Layer:
 
 $$
-\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot f_L'(z^{(L)})
+\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(z^{(L)})}_{\text{activation derivative}}
 $$
 
 * $f_L'(z^{(L)})$ is the derivative of the output activation function
@@ -83,7 +83,7 @@ $$
 Propagate backward recursively:
 
 $$
-\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(z^{(l)}), \quad l=L-1,...,1
+\underbrace{\delta^{(l)}}_{\text{hidden layer error}} = \underbrace{\delta^{(l+1)}}_{\text{error from next layer}} \underbrace{(W^{(l+1)})^T}_{\text{weight transpose}} \odot \underbrace{f_l'(z^{(l)})}_{\text{activation derivative}}, \quad \underbrace{l=L-1,...,1}_{\text{backward propagation}}
 $$
 
 Interpretation:
@@ -100,11 +100,11 @@ This is the **chain rule applied through the network**.
 Once $\delta^{(l)}$ is known:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \cdot \delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{(a^{(l-1)})^T}_{\text{input transpose}} \cdot \underbrace{\delta^{(l)}}_{\text{error signal}}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial b^{(l)}}}_{\text{bias gradient}} = \underbrace{\delta^{(l)}}_{\text{error signal}}
 $$
 
 These formulas are **general** for all fully connected layers.
@@ -127,23 +127,23 @@ For a batch of $m$ samples stacked as rows:
 Error signals:
 
 $$
-\Delta^{(L)} = \frac{\partial \mathcal{L}}{\partial A^{(L)}} \odot f_L'(Z^{(L)})
+\underbrace{\Delta^{(L)}}_{\text{batch output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial A^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(Z^{(L)})}_{\text{activation derivative}}
 $$
 
 Recursive:
 
 $$
-\Delta^{(l)} = \Delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(Z^{(l)}), \quad l=L-1,...,1
+\underbrace{\Delta^{(l)}}_{\text{batch hidden error}} = \underbrace{\Delta^{(l+1)}}_{\text{error from next layer}} \underbrace{(W^{(l+1)})^T}_{\text{weight transpose}} \odot \underbrace{f_l'(Z^{(l)})}_{\text{activation derivative}}, \quad \underbrace{l=L-1,...,1}_{\text{backward propagation}}
 $$
 
 Weight and bias gradients (averaged over batch):
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \frac{1}{m} (A^{(l-1)})^T \Delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{\frac{1}{m}}_{\text{batch averaging}} \underbrace{(A^{(l-1)})^T}_{\text{input transpose}} \underbrace{\Delta^{(l)}}_{\text{error signals}}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \frac{1}{m} \sum_{i=1}^{m} \Delta^{(l)}_{i,:}
+\underbrace{\frac{\partial \mathcal{L}}{\partial b^{(l)}}}_{\text{bias gradient}} = \underbrace{\frac{1}{m}}_{\text{batch averaging}} \sum_{i=1}^{m} \underbrace{\Delta^{(l)}_{i,:}}_{\text{error for sample } i}
 $$
 
 This is the **final vectorized form** used in practical neural network libraries.

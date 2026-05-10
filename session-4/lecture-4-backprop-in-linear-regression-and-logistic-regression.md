@@ -78,7 +78,7 @@ $$
 Since $z^{(i)} = x^{(i)} W$:
 
 $$
-\frac{\partial z^{(i)}}{\partial W} = x^{(i)\mathsf{T}}
+\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)\mathsf{T}}}_{\text{input transpose}}
 $$
 
 **Combine:**
@@ -134,7 +134,7 @@ Where:
 The loss is **Binary Cross Entropy (BCE)** over all $n$ samples:
 
 $$
-\mathcal{L} = -\frac{1}{n} \sum_{i=1}^{n} \big( y^{(i)} \log \hat{y}^{(i)} + (1 - y^{(i)}) \log(1 - \hat{y}^{(i)}) \big)
+\mathcal{L} = -\underbrace{\frac{1}{n}}_{\text{averaging factor}} \sum_{i=1}^{n} \big( \underbrace{y^{(i)} \log \hat{y}^{(i)}}_{\text{positive class}} + \underbrace{(1 - y^{(i)}) \log(1 - \hat{y}^{(i)})}_{\text{negative class}} \big)
 $$
 
 ### 3.2 Computation Graph
@@ -158,7 +158,7 @@ $$
 **Step 1: Gradient of BCE w.r.t. prediction**
 
 $$
-\frac{\partial \ell^{(i)}}{\partial \hat{y}^{(i)}} = -\left( \frac{y^{(i)}}{\hat{y}^{(i)}} - \frac{1 - y^{(i)}}{1 - \hat{y}^{(i)}} \right)
+\underbrace{\frac{\partial \ell^{(i)}}{\partial \hat{y}^{(i)}}}_{\text{BCE gradient}} = -\left( \underbrace{\frac{y^{(i)}}{\hat{y}^{(i)}}}_{\text{positive term}} - \underbrace{\frac{1 - y^{(i)}}{1 - \hat{y}^{(i)}}}_{\text{negative term}} \right)
 $$
 
 **Step 2: Gradient of sigmoid w.r.t. pre-activation**
@@ -180,7 +180,7 @@ $$
 Since $z^{(i)} = x^{(i)} W + b$:
 
 $$
-\frac{\partial z^{(i)}}{\partial W} = x^{(i)\mathsf{T}}, \quad \frac{\partial z^{(i)}}{\partial b} = 1
+\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)\mathsf{T}}}_{\text{input transpose}}, \quad \underbrace{\frac{\partial z^{(i)}}{\partial b}}_{\text{bias gradient}} = \underbrace{1}_{\text{constant}}
 $$
 
 **Combine:**

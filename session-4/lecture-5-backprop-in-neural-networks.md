@@ -46,7 +46,7 @@ These stored $z^{(l)}$ and $a^{(l)}$ are necessary for backpropagation.
 Backpropagation computes an **error signal** $\delta^{(l)}$ for each layer:
 
 $$
-\delta^{(l)} = \frac{\partial \mathcal{L}}{\partial z^{(l)}} \in \mathbb{R}^{1 \times n_l}
+\underbrace{\delta^{(l)}}_{\text{error signal}} = \underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l)}}}_{\text{gradient w.r.t. pre-activation}} \in \mathbb{R}^{1 \times n_l}
 $$
 
 > [!INFO]
@@ -74,7 +74,7 @@ $$
 Weight and bias gradients are:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \cdot \delta^{(l)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{(a^{(l-1)})^T}_{\text{input transpose}} \cdot \underbrace{\delta^{(l)}}_{\text{error signal}}, \quad \underbrace{\frac{\partial \mathcal{L}}{\partial b^{(l)}}}_{\text{bias gradient}} = \underbrace{\delta^{(l)}}_{\text{error signal}}
 $$
 
 The **main task** is to compute $\delta^{(l)}$ recursively from the output layer backward.
@@ -86,7 +86,7 @@ The **main task** is to compute $\delta^{(l)}$ recursively from the output layer
 At the output layer $L$:
 
 $$
-\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot f_L'(z^{(L)})
+\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(z^{(L)})}_{\text{activation derivative}}
 $$
 
 Where:
@@ -116,7 +116,7 @@ $$
 For hidden layer $l$:
 
 $$
-\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(z^{(l)})
+\underbrace{\delta^{(l)}}_{\text{hidden layer error}} = \underbrace{\delta^{(l+1)}}_{\text{error from next layer}} \underbrace{(W^{(l+1)})^T}_{\text{weight transpose}} \odot \underbrace{f_l'(z^{(l)})}_{\text{activation derivative}}
 $$
 
 Explanation:
@@ -132,11 +132,11 @@ Explanation:
 Once $\delta^{(l)}$ is known:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \cdot \delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{(a^{(l-1)})^T}_{\text{input transpose}} \cdot \underbrace{\delta^{(l)}}_{\text{error signal}}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial b^{(l)}}}_{\text{bias gradient}} = \underbrace{\delta^{(l)}}_{\text{error signal}}
 $$
 
 **Interpretation:**
@@ -174,7 +174,7 @@ $$
 2. Output error:
 
 $$
-\delta^{(2)} = \frac{\partial \mathcal{L}}{\partial a^{(2)}} \odot f'(z^{(2)})
+\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(z^{(L)})}_{\text{activation derivative}}
 $$
 
 3. Output layer gradients:
@@ -208,15 +208,15 @@ $$
 For a batch of $m$ samples with inputs $X \in \mathbb{R}^{m \times d}$ (stacked as rows):
 
 $$
-\Delta^{(l)} = \frac{\partial \mathcal{L}}{\partial Z^{(l)}} \quad \text{(matrix of errors for all samples)}
+\underbrace{\Delta^{(l)}}_{\text{batch error signals}} = \underbrace{\frac{\partial \mathcal{L}}{\partial Z^{(l)}}}_{\text{gradient w.r.t. pre-activations}} \quad \text{(matrix of errors for all samples)}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \frac{1}{m} (A^{(l-1)})^T \Delta^{(l)}
+\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{\frac{1}{m}}_{\text{batch averaging}} \underbrace{(A^{(l-1)})^T}_{\text{input transpose}} \underbrace{\Delta^{(l)}}_{\text{error signals}}
 $$
 
 $$
-\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \frac{1}{m} \sum_{i=1}^{m} \Delta^{(l)}_{i,:}
+\underbrace{\frac{\partial \mathcal{L}}{\partial b^{(l)}}}_{\text{bias gradient}} = \underbrace{\frac{1}{m}}_{\text{batch averaging}} \sum_{i=1}^{m} \underbrace{\Delta^{(l)}_{i,:}}_{\text{error for sample } i}
 $$
 
 Vectorization ensures **efficient computation** on GPUs for deep networks.

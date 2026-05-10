@@ -88,7 +88,7 @@ Gradients are the **guiding signal** for updating parameters.
 For deep models, the output is a **composition of many layers**:
 
 $$
-\hat{y} = f^{(L)}(f^{(L-1)}(\dots f^{(1)}(x) \dots ))
+\hat{y} = \underbrace{f^{(L)}}_{\text{output layer}}(\underbrace{f^{(L-1)}}_{\text{layer } L-1}(\dots \underbrace{f^{(1)}}_{\text{layer } 1}(\underbrace{x}_{\text{input}}) \dots ))
 $$
 
 * Each layer applies a nonlinear transformation

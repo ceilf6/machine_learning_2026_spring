@@ -42,7 +42,7 @@ $$
 Then:
 
 $$
-\frac{dy}{dx} = \frac{dy}{dg} \cdot \frac{dg}{dx}
+\underbrace{\frac{dy}{dx}}_{\text{total derivative}} = \underbrace{\frac{dy}{dg}}_{\text{outer derivative}} \cdot \underbrace{\frac{dg}{dx}}_{\text{inner derivative}}
 $$
 
 Example:
@@ -74,7 +74,7 @@ $$
 The derivative of $z$ w.r.t $t$ is:
 
 $$
-\frac{dz}{dt} = \frac{\partial z}{\partial x} \cdot \frac{dx}{dt} + \frac{\partial z}{\partial y} \cdot \frac{dy}{dt}
+\underbrace{\frac{dz}{dt}}_{\text{total derivative}} = \underbrace{\frac{\partial z}{\partial x}}_{\text{path through } x} \cdot \underbrace{\frac{dx}{dt}}_{\text{rate of } x} + \underbrace{\frac{\partial z}{\partial y}}_{\text{path through } y} \cdot \underbrace{\frac{dy}{dt}}_{\text{rate of } y}
 $$
 
 **Interpretation:** If multiple paths influence $z$, each path contributes **additively** to the total derivative.
@@ -95,7 +95,7 @@ $$
 Formally, for a scalar loss $\mathcal{L}$:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z^{(l)}} = \frac{\partial \mathcal{L}}{\partial z^{(l+1)}} \cdot \frac{\partial z^{(l+1)}}{\partial z^{(l)}}
+\underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l)}}}_{\text{error signal at layer } l} = \underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l+1)}}}_{\text{error from next layer}} \cdot \underbrace{\frac{\partial z^{(l+1)}}{\partial z^{(l)}}}_{\text{local derivative}}
 $$
 
 **Interpretation:** Gradients **flow backward**, layer by layer.
@@ -143,7 +143,7 @@ $$
 Backward pass (chain rule):
 
 $$
-\frac{\partial \mathcal{L}}{\partial a} = \frac{\partial \mathcal{L}}{\partial u} \cdot \frac{\partial u}{\partial a} = 2u \cdot b
+\underbrace{\frac{\partial \mathcal{L}}{\partial a}}_{\text{gradient w.r.t. } a} = \underbrace{\frac{\partial \mathcal{L}}{\partial u}}_{\text{gradient w.r.t. } u} \cdot \underbrace{\frac{\partial u}{\partial a}}_{\text{local derivative}} = 2u \cdot b
 $$
 
 $$

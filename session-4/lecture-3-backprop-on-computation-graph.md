@@ -67,13 +67,13 @@ $$
 * At each node, compute the **local gradient** and propagate:
 
 $$
-\text{incoming gradient} \cdot \text{local derivative}
+\underbrace{\text{incoming gradient}}_{\text{from previous node}} \cdot \underbrace{\text{local derivative}}_{\text{at current node}}
 $$
 
 * If a node has multiple outgoing edges, **sum contributions**:
 
 $$
-\text{total gradient} = \sum \text{incoming gradients from all paths}
+\underbrace{\text{total gradient}}_{\text{sum of all paths}} = \sum \underbrace{\text{incoming gradients from all paths}}_{\text{multiple contributions}}
 $$
 
 ---
