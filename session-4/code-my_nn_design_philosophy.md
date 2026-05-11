@@ -767,7 +767,7 @@ class Layer:
 
 This makes adding new layer types trivial. Examples:
 
-**Sigmoid activation**:
+**Sigmoid activation (can be added later on)**:
 ```python
 class Sigmoid(Layer):
     def forward(self, input):

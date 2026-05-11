@@ -1,5 +1,13 @@
 # Pickling in Python: Saving and Loading Data and Models
 
+
+> [!INFO]
+> Your task:
+> Create a GitHub repo, 
+run the code, upload things (code and pickled files) to the GitHub repo.
+> Send the GitHub URL in the WeChat group.
+
+
 Pickling is a powerful technique in Python that allows you to serialize and deserialize Python objects. This means you can save your data structures or trained machine learning models to disk and load them back later. This tutorial will guide you through using pickle for both regular data and ML models.
 
 ## What is Pickling?

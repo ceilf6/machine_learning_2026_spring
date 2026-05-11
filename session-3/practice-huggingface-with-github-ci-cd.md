@@ -1,5 +1,12 @@
 # Simple ML Project with GitHub CI/CD → Hugging Face
 
+> [!INFO]
+> Your delivery should look like this:
+> - https://github.com/EmporioSabo/california-housing-predictor
+> - https://huggingface.co/EmporioSabo/california-housing-predictor/tree/main
+>
+> After finishing the task, send the URLs in the WeChat Group.
+
 ## Objective
 
 1. Conceive a simple Machine Learning project (no need for complex models).

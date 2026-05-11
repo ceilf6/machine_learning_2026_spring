@@ -365,3 +365,25 @@ So, i would like you guys to check out other models.
 SEND YOUR FINDINGS HERE IN THE WECHAT GROUP, the model and the accuracy.
 
 Ideally, we should be able to find a good model with, let's say, higher than 95% of accuracy.
+
+#### Feedback from [one student](https://github.com/ceilf6/machine-learning/blob/main/tasks/session-400/results.txt):
+
+Rank | Accuracy | Model Name  
+-----|----------|----------------------------------  
+ 1   | 100.00%  | textattack/roberta-base-imdb          (>95%)  
+ 2   |  94.00%  | siebert/sentiment-roberta-large-english  
+ 3   |  94.00%  | lvwerra/distilbert-imdb  
+ 4   |  92.00%  | textattack/roberta-base-SST-2  
+ 5   |  92.00%  | aychang/roberta-base-imdb  
+ 6   |  90.00%  | textattack/distilbert-base-uncased-imdb  
+ 7   |  88.00%  | distilbert-base-uncased-finetuned-sst-2-english  (baseline)  
+ 8   |  86.00%  | textattack/bert-base-uncased-SST-2  
+ 9   |  86.00%  | textattack/albert-base-v2-SST-2  
+10   |  82.00%  | textattack/distilbert-base-cased-SST-2  
+11   |  80.00%  | nlptown/bert-base-multilingual-uncased-sentiment  
+12   |  74.00%  | philschmid/distilbert-base-multilingual-cased-sentiment-2  
+13   |  72.00%  | finiteautomata/bertweet-base-sentiment-analysis  
+14   |  70.00%  | cardiffnlp/twitter-roberta-base-sentiment-latest  
+15   |  68.00%  | lxyuan/distilbert-base-multilingual-cased-sentiments-student  
+16   |  60.00%  | cardiffnlp/twitter-roberta-base-sentiment  
+17   |  52.00%  | ProsusAI/finbert  
