@@ -269,7 +269,7 @@ For digit recognition, $z \in \mathbb{R}^{1 \times 10}$. Softmax converts 10 log
 
 ---
 
-## 12. Temperature in Softmax
+## 12. Temperature in Softmax (Optional)
 
 ![](./img/softmax_temperature.png)
 
@@ -309,7 +309,7 @@ where $T > 0$ is the temperature.
 
 ---
 
-## 13. Softmax in LLMs and Transformers
+## 13. Softmax in LLMs and Transformers (Optional)
 
 https://poloclub.github.io/transformer-explainer/
 
