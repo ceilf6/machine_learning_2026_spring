@@ -12,7 +12,7 @@ Consider a feedforward neural network with $L$ layers. For layer $l$:
 * Weights: $W^{(l)} \in \mathbb{R}^{n_{l-1} \times n_l}$
 * Biases: $b^{(l)} \in \mathbb{R}^{1 \times n_l}$
 * Pre-activation: $z^{(l)} = a^{(l-1)} W^{(l)} + b^{(l)}$
-* Activation: $a^{(l)} = f_l(z^{(l)})$
+* Activation: $a^{(l)} = f^{(l)}(z^{(l)})$
 
 The output is $a^{(L)}$, and the network loss is $\mathcal{L}(a^{(L)}, y)$, where $y$ is the target.
 
@@ -30,10 +30,10 @@ The forward pass computes all activations and stores intermediate variables:
 
 $$
 \begin{aligned}
-z^{(1)} &= x W^{(1)} + b^{(1)}, & a^{(1)} &= f_1(z^{(1)}) \\
-z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)}, & a^{(2)} &= f_2(z^{(2)}) \\
+z^{(1)} &= x W^{(1)} + b^{(1)}, & a^{(1)} &= f^{(1)}(z^{(1)}) \\
+z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)}, & a^{(2)} &= f^{(2)}(z^{(2)}) \\
 & \vdots & & \vdots \\
-z^{(L)} &= a^{(L-1)} W^{(L)} + b^{(L)}, & a^{(L)} &= f_L(z^{(L)})
+z^{(L)} &= a^{(L-1)} W^{(L)} + b^{(L)}, & a^{(L)} &= f^{(L)}(z^{(L)})
 \end{aligned}
 $$
 
@@ -80,13 +80,13 @@ The **main task** is to compute $\delta^{(l)}$ recursively from the output layer
 At the output layer $L$:
 
 $$
-\boxed{\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(z^{(L)})}_{\text{activation derivative}}}
+\boxed{\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{(f^{(L)})'(z^{(L)})}_{\text{activation derivative}}}
 $$
 
 Where:
 
 * $\frac{\partial \mathcal{L}}{\partial a^{(L)}}$ depends on the loss function.
-* $f_L'(z^{(L)})$ is the derivative of the output activation.
+* $(f^{(L)})'(z^{(L)})$ is the derivative of the output activation.
 * $\odot$ is element-wise multiplication.
 
 **Examples:**
@@ -106,13 +106,13 @@ Where:
 For hidden layer $l$:
 
 $$
-\boxed{ \underbrace{\delta^{(l)}}_{\text{hidden layer error}} = \underbrace{\delta^{(l+1)}}_{\text{error from next layer}} \underbrace{(W^{(l+1)})^T}_{\text{weight transpose}} \odot \underbrace{f_l'(z^{(l)})}_{\text{activation derivative}}}
+\boxed{ \underbrace{\delta^{(l)}}_{\text{hidden layer error}} = \underbrace{\delta^{(l+1)}}_{\text{error from next layer}} \underbrace{(W^{(l+1)})^T}_{\text{weight transpose}} \odot \underbrace{(f^{(l)})'(z^{(l)})}_{\text{activation derivative}}}
 $$
 
 Explanation:
 
 1. $\delta^{(l+1)} (W^{(l+1)})^T$ propagates the output error backward.
-2. $f_l'(z^{(l)})$ scales the error by the derivative of the activation function.
+2. $(f^{(l)})'(z^{(l)})$ scales the error by the derivative of the activation function.
 3. This is **chain rule applied layer by layer**.
 
 ---

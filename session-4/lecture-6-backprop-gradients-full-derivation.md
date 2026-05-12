@@ -12,7 +12,7 @@ Consider a feedforward neural network with $L$ layers:
 
 * Input: $a^{(0)} = x \in \mathbb{R}^{1 \times d_0}$
 * Pre-activation: $z^{(l)} = a^{(l-1)} W^{(l)} + b^{(l)}$
-* Activation: $a^{(l)} = f_l(z^{(l)})$
+* Activation: $a^{(l)} = f^{(l)}(z^{(l)})$
 * Loss: $\mathcal{L}(a^{(L)}, y)$
 
 After the forward pass, all $z^{(l)}$ and $a^{(l)}$ are stored for backpropagation.
@@ -30,7 +30,7 @@ $$
 **Output layer:**
 
 $$
-\boxed{\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot f_L'(z^{(L)})}
+\boxed{\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot (f^{(L)})'(z^{(L)})}
 $$
 
 For the three common output configurations this collapses to:
@@ -44,7 +44,7 @@ For the three common output configurations this collapses to:
 **Hidden layers (recursive, $l = L-1, \dots, 1$):**
 
 $$
-\boxed{\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(z^{(l)})}
+\boxed{\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot (f^{(l)})'(z^{(l)})}
 $$
 
 ---
@@ -71,11 +71,11 @@ $$
 **Batch error signals:**
 
 $$
-\boxed{\Delta^{(L)} = \frac{\partial \mathcal{L}}{\partial A^{(L)}} \odot f_L'(Z^{(L)})}
+\boxed{\Delta^{(L)} = \frac{\partial \mathcal{L}}{\partial A^{(L)}} \odot (f^{(L)})'(Z^{(L)})}
 $$
 
 $$
-\boxed{\Delta^{(l)} = \Delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(Z^{(l)}), \quad l = L-1, \dots, 1}
+\boxed{\Delta^{(l)} = \Delta^{(l+1)} (W^{(l+1)})^T \odot (f^{(l)})'(Z^{(l)}), \quad l = L-1, \dots, 1}
 $$
 
 **Averaged gradients:**
@@ -116,8 +116,8 @@ $$
 ## 6. Full Algorithm
 
 1. **Forward pass**: compute and store $z^{(l)}, a^{(l)}$ for all layers
-2. **Output error**: $\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot f_L'(z^{(L)})$
-3. **Backpropagate**: $\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(z^{(l)})$
+2. **Output error**: $\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial a^{(L)}} \odot (f^{(L)})'(z^{(L)})$
+3. **Backpropagate**: $\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot (f^{(l)})'(z^{(l)})$
 4. **Gradients**: $\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \delta^{(l)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}$
 5. **Update**: $W^{(l)} \leftarrow W^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial W^{(l)}}, \quad b^{(l)} \leftarrow b^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial b^{(l)}}$
 

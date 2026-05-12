@@ -34,7 +34,7 @@ z^{(l)} = a^{(l-1)} W^{(l)} + b^{(l)}
 $$
 
 $$
-a^{(l)} = g^{(l)}(z^{(l)})
+a^{(l)} = f^{(l)}(z^{(l)})
 $$
 
 where:
@@ -46,7 +46,7 @@ where:
 | $b^{(l)}$ | $ \mathbb{R}^{1 \times n_{l}}$ | Bias at layer $l$ |
 | $z^{(l)}$ | $ \mathbb{R}^{1 \times n_{l}}$ | Pre-activation at layer $l$ |
 | $a^{(l)}$ | $ \mathbb{R}^{1 \times n_{l}}$ | Post-activation at layer $l$ |
-| $g^{(l)}$ | — | Activation function at layer $l$ |
+| $f^{(l)}$ | — | Activation function at layer $l$ |
 
 ### Batch Form (Vectorized Computation)
 
@@ -92,6 +92,7 @@ For regression and binary classification with batch size $n$:
 | $m$ | Batch size |
 | $L$ | Number of layers in a neural network |
 | $n_l$ | Number of neurons in layer $l$ |
+| $f^{(l)}$ | Activation function at layer $l$: $a^{(l)} = f^{(l)}(z^{(l)})$ |
 
 ### Parameters
 
@@ -118,11 +119,11 @@ This notation clearly indicates an **in-place update** (mutating the parameter) 
 | Symbol | Meaning |
 |--------|---------|
 | $g$ | Gradient (mini-batch or full-batch depending on context) |
-| $v$ | **Velocity** (momentum accumulator): $v \leftarrow \beta v + (1-\beta)g$ |
-| $m$ | **First moment** (Adam): $m \leftarrow \beta_1 m + (1-\beta_1)g$ |
+| $v$ (momentum) | **Velocity** (momentum accumulator): $v \leftarrow \beta v + (1-\beta)g$ |
+| $m$ (Adam) | **First moment** (Adam): $m \leftarrow \beta_1 m + (1-\beta_1)g$ |
 | $v$ (Adam) | **Second moment** (Adam): $v \leftarrow \beta_2 v + (1-\beta_2)g^2$ |
-| $\hat{m}, \hat{v}$ | Bias-corrected moments in Adam |
-| $\beta, \beta_1, \beta_2$ | Exponential decay rates for moving averages |
+| $\hat{m}, \hat{v}$ (Adam) | Bias-corrected moments in Adam |
+| $\beta, \beta_1, \beta_2$ (Adam) | Exponential decay rates for moving averages |
 
 > **Note on SGD terminology:** In this course, **"SGD"** refers to **Mini-batch SGD** (batch size $B$ where $1 < B \ll n$). The theoretical "One-sample SGD" or "Single-sample SGD" ($B=1$) is rarely used in practice.
 
