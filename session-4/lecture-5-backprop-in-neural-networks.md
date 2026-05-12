@@ -91,17 +91,13 @@ Where:
 
 **Examples:**
 
-* **MSE with linear output**:
+| Task | Output activation | Loss | Output error $\delta^{(L)}$ |
+| :--- | :--- | :--- | :--- |
+| Regression | Linear (none) | MSE: $\mathcal{L} = (a^{(L)} - y)^2$ | $2(a^{(L)} - y)$ |
+| Binary classification | Sigmoid | BCE: $\mathcal{L} = -\big(y \log a^{(L)} + (1-y)\log(1-a^{(L)})\big)$ | $a^{(L)} - y$ |
+| Multiclass classification | Softmax | CE: $\mathcal{L} = -\sum_{k=1}^{K} y_k \log a^{(L)}_k$ | $a^{(L)} - y$ |
 
-$$
-\mathcal{L} = \frac{1}{2} (a^{(L)} - y)^2, \quad \delta^{(L)} = a^{(L)} - y
-$$
-
-* **BCE with sigmoid output**:
-
-$$
-\mathcal{L} = - (y \log a^{(L)} + (1-y) \log(1-a^{(L)})), \quad \delta^{(L)} = a^{(L)} - y
-$$
+**Remark:** For both classification tasks the output error simplifies exactly to **prediction minus target**. The standard MSE regression error is $2(a^{(L)} - y)$ — the factor $2$ comes from differentiating $(a^{(L)} - y)^2$. The Softmax + Cross-Entropy case is particularly elegant: the Jacobian of softmax and the gradient of CE algebraically cancel so that $\delta^{(L)} = a^{(L)} - y$ element-wise.
 
 ---
 
@@ -156,42 +152,56 @@ These derivatives are applied element-wise to compute $\delta^{(l)}$.
 
 ---
 
-## 8. Step-by-Step Example: 2-Layer Network
+## 8. Example: Neural Network for MNIST Digit Recognition
 
-1. Forward pass:
+A concrete illustration: input $x \in \mathbb{R}^{1 \times 784}$ (flattened 28×28 image), hidden layer with ReLU, and 10 output neurons for digits 0–9.
+
+### 8.1 Forward Pass
 
 $$
 \begin{gathered}
-z^{(1)} = x W^{(1)} + b^{(1)}, \quad a^{(1)} = f_1(z^{(1)}) \\
-z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}, \quad a^{(2)} = f_2(z^{(2)})
+z^{(1)} = x W^{(1)} + b^{(1)}, \quad a^{(1)} = \text{ReLU}(z^{(1)}) \\
+z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}, \quad \hat{y} = \text{softmax}(z^{(2)})
 \end{gathered}
 $$
 
-2. Output error:
+Here $W^{(2)} \in \mathbb{R}^{n_1 \times 10}$ and $\hat{y} \in \mathbb{R}^{1 \times 10}$ is the probability vector over digits.
+
+### 8.2 Loss
+
+Cross-entropy with one-hot target $y \in \mathbb{R}^{1 \times 10}$:
 
 $$
-\underbrace{\delta^{(2)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(2)}}}_{\text{loss gradient}} \odot \underbrace{f_2'(z^{(2)})}_{\text{activation derivative}}
+\mathcal{L} = -\sum_{k=1}^{10} y_k \log \hat{y}_k
 $$
 
-3. Output layer gradients:
+### 8.3 Backward Pass
+
+1. **Output error** (Softmax + CE cancellation):
+
+$$
+\delta^{(2)} = \hat{y} - y
+$$
+
+2. **Output layer gradients**:
 
 $$
 \frac{\partial \mathcal{L}}{\partial W^{(2)}} = (a^{(1)})^T \delta^{(2)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(2)}} = \delta^{(2)}
 $$
 
-4. Hidden layer error:
+3. **Hidden layer error**:
 
 $$
-\delta^{(1)} = \delta^{(2)} (W^{(2)})^T \odot f_1'(z^{(1)})
+\delta^{(1)} = \delta^{(2)} (W^{(2)})^T \odot \mathbb{1}_{z^{(1)} > 0}
 $$
 
-5. Hidden layer gradients:
+4. **Hidden layer gradients**:
 
 $$
 \frac{\partial \mathcal{L}}{\partial W^{(1)}} = x^T \delta^{(1)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(1)}} = \delta^{(1)}
 $$
 
-6. Update parameters:
+5. **Update**:
 
 $$
 W^{(l)} \leftarrow W^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial W^{(l)}}, \quad b^{(l)} \leftarrow b^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial b^{(l)}}
