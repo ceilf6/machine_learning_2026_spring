@@ -19,7 +19,7 @@ The output is $a^{(L)}$, and the network loss is $\mathcal{L}(a^{(L)}, y)$, wher
 Our goal is to compute:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(l)}}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}}, \quad l=1,...,L
+\frac{\partial \mathcal{L}}{\partial W^{(l)}}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}}, \quad l = 1, \dots, L
 $$
 
 ---
@@ -30,10 +30,10 @@ The forward pass computes all activations and stores intermediate variables:
 
 $$
 \begin{aligned}
-z^{(1)} &= x W^{(1)} + b^{(1)}, & a^{(1)} = f_1(z^{(1)}) \\
-z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)}, & a^{(2)} = f_2(z^{(2)}) \\
-& \vdots & \\
-z^{(L)} &= a^{(L-1)} W^{(L)} + b^{(L)}, & a^{(L)} = f_L(z^{(L)})
+z^{(1)} &= x W^{(1)} + b^{(1)}, & a^{(1)} &= f_1(z^{(1)}) \\
+z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)}, & a^{(2)} &= f_2(z^{(2)}) \\
+& \vdots & & \vdots \\
+z^{(L)} &= a^{(L-1)} W^{(L)} + b^{(L)}, & a^{(L)} &= f_L(z^{(L)})
 \end{aligned}
 $$
 
@@ -68,10 +68,10 @@ $$
 >
 > They are linked by chain rule. Once we have $\delta^{(l)}$, we can compute the parameter gradients:
 > $$
-> \frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \cdot \delta^{(l)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+> \frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \delta^{(l)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
 > $$
 
-The **main task** is to compute $\delta^{(l)}$ recursively from the output layer backward. Once $\delta^{(l)}$ is known, the parameter gradients follow directly (see Section 6).
+The **main task** is to compute $\delta^{(l)}$ recursively from the output layer backward. Once $\delta^{(l)}$ is known, the parameter gradients follow directly.
 
 ---
 
@@ -126,7 +126,7 @@ Explanation:
 Once $\delta^{(l)}$ is known:
 
 $$
-\boxed{\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{(a^{(l-1)})^T}_{\text{input transpose}} \cdot \underbrace{\delta^{(l)}}_{\text{error signal}}}
+\boxed{\underbrace{\frac{\partial \mathcal{L}}{\partial W^{(l)}}}_{\text{weight gradient}} = \underbrace{(a^{(l-1)})^T}_{\text{input transpose}} \, \underbrace{\delta^{(l)}}_{\text{error signal}}}
 $$
 
 $$
@@ -161,32 +161,34 @@ These derivatives are applied element-wise to compute $\delta^{(l)}$.
 1. Forward pass:
 
 $$
-z^{(1)} = x W^{(1)} + b^{(1)}, \quad a^{(1)} = f(z^{(1)}) \\
-z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}, \quad a^{(2)} = f(z^{(2)})
+\begin{gathered}
+z^{(1)} = x W^{(1)} + b^{(1)}, \quad a^{(1)} = f_1(z^{(1)}) \\
+z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}, \quad a^{(2)} = f_2(z^{(2)})
+\end{gathered}
 $$
 
 2. Output error:
 
 $$
-\underbrace{\delta^{(L)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(L)}}}_{\text{loss gradient}} \odot \underbrace{f_L'(z^{(L)})}_{\text{activation derivative}}
+\underbrace{\delta^{(2)}}_{\text{output error}} = \underbrace{\frac{\partial \mathcal{L}}{\partial a^{(2)}}}_{\text{loss gradient}} \odot \underbrace{f_2'(z^{(2)})}_{\text{activation derivative}}
 $$
 
 3. Output layer gradients:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(2)}} = (a^{(1)})^T \cdot \delta^{(2)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(2)}} = \delta^{(2)}
+\frac{\partial \mathcal{L}}{\partial W^{(2)}} = (a^{(1)})^T \delta^{(2)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(2)}} = \delta^{(2)}
 $$
 
 4. Hidden layer error:
 
 $$
-\delta^{(1)} = \delta^{(2)} (W^{(2)})^T \odot f'(z^{(1)})
+\delta^{(1)} = \delta^{(2)} (W^{(2)})^T \odot f_1'(z^{(1)})
 $$
 
 5. Hidden layer gradients:
 
 $$
-\frac{\partial \mathcal{L}}{\partial W^{(1)}} = x^T \cdot \delta^{(1)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(1)}} = \delta^{(1)}
+\frac{\partial \mathcal{L}}{\partial W^{(1)}} = x^T \delta^{(1)}, \quad \frac{\partial \mathcal{L}}{\partial b^{(1)}} = \delta^{(1)}
 $$
 
 6. Update parameters:
@@ -214,14 +216,4 @@ $$
 $$
 
 Vectorization ensures **efficient computation** on GPUs for deep networks.
-
----
-
-## 10. Summary
-
-1. Forward pass: compute activations and store intermediate values.
-2. Compute output layer error $\delta^{(L)}$.
-3. Backpropagate error to hidden layers: $\delta^{(l)} = \delta^{(l+1)} (W^{(l+1)})^T \odot f_l'(z^{(l)})$.
-4. Compute weight and bias gradients using $\delta^{(l)}$ and activations.
-5. Update parameters with gradient descent.
 

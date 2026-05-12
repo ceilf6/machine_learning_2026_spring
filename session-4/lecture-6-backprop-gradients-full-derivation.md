@@ -46,7 +46,7 @@ $$
 Once all $\delta^{(l)}$ are computed:
 
 $$
-\boxed{\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \cdot \delta^{(l)}}
+\boxed{\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (a^{(l-1)})^T \delta^{(l)}}
 $$
 
 $$

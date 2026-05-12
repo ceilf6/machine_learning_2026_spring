@@ -17,11 +17,9 @@ Example: $\mathcal{L} = (a \cdot b + c)^2$
 
 Graph:
 
-
 $$
-\large
-\begin{array}{ccccccccc}
-a & \searrow & & & & & & & \\
+\begin{array}{ccccccccccc}
+a & \searrow & & & & & & & & & \\
 & & \boxed{\times} & \longrightarrow & \boxed{+} & \longrightarrow & u & \longrightarrow & \boxed{(\cdot)^2} & \longrightarrow & \mathcal{L} \\
 b & \nearrow & & & \uparrow & & & & & & \\
 & & & & c & & & & & & \\
@@ -33,17 +31,11 @@ $$
 * $u = a \cdot b + c$
 * $\mathcal{L} = u^2$
 
-Each node **computes a value in the forward pass**.
+Each node **computes a value in the forward pass** and **stores intermediate results** for later use in backpropagation.
 
 ---
 
-## 2. Forward Pass on a Graph
-
-During the forward pass, each node computes its value and **stores intermediate results** for later use in backpropagation.
-
----
-
-## 3. Backward Pass: Gradient Flow
+## 2. Backward Pass: Gradient Flow
 
 The **backward pass** propagates gradients from the output node $\mathcal{L}$ back to inputs:
 
@@ -56,7 +48,7 @@ $$
 * At each node, compute the **local gradient** and propagate:
 
 $$
-\underbrace{\text{incoming gradient}}_{\text{from previous node}} \cdot \underbrace{\text{local derivative}}_{\text{at current node}}
+\underbrace{\text{incoming gradient}}_{\text{from previous node}} \; \underbrace{\text{local derivative}}_{\text{at current node}}
 $$
 
 * If a node has multiple outgoing edges, **sum contributions**:
@@ -67,7 +59,7 @@ $$
 
 ---
 
-## 4. Local Gradients
+## 3. Local Gradients
 
 Each operation knows how to compute its **partial derivatives**:
 
@@ -99,7 +91,7 @@ $$
 
 ---
 
-## 5. Example: Step-by-Step Backprop
+## 4. Example: Step-by-Step Backprop
 
 Graph: $\mathcal{L} = (a \cdot b + c)^2$
 
@@ -119,13 +111,13 @@ $$
 2. Compute gradient w.r.t $u$:
 
 $$
-\frac{\partial \mathcal{L}}{\partial u} = \frac{\partial \mathcal{L}}{\partial \mathcal{L}} \cdot \frac{d\mathcal{L}}{du} = 1 \cdot 2u = 2u
+\frac{\partial \mathcal{L}}{\partial u} = \frac{\partial \mathcal{L}}{\partial \mathcal{L}} \, \frac{d\mathcal{L}}{du} = 1 \cdot 2u = 2u
 $$
 
 3. Compute gradients w.r.t inputs:
 
 $$
-\frac{\partial \mathcal{L}}{\partial a} = \frac{\partial \mathcal{L}}{\partial u} \cdot \frac{\partial u}{\partial a} = 2u \cdot b
+\frac{\partial \mathcal{L}}{\partial a} = \frac{\partial \mathcal{L}}{\partial u} \, \frac{\partial u}{\partial a} = 2u \cdot b
 $$
 
 $$
@@ -140,33 +132,33 @@ Gradients flow backward **systematically**, using only **local derivatives**.
 
 ---
 
-## 6. Handling Multiple Paths
+## 5. Handling Multiple Paths
 
 If a node influences the output through **multiple paths**, sum the contributions.
 
 Example:
 
 $$
-𝓛 = x \cdot y + x \cdot z
+\mathcal{L} = x \cdot y + x \cdot z
 $$
 
 Forward:
 
 * $u = x \cdot y$
 * $v = x \cdot z$
-* $𝓛 = u + v$
+* $\mathcal{L} = u + v$
 
 Backward:
 
 * $$
-\frac{\partial 𝓛}{\partial x} = \frac{\partial 𝓛}{\partial u} \cdot \frac{\partial u}{\partial x} + \frac{\partial 𝓛}{\partial v} \cdot \frac{\partial v}{\partial x} = 1 \cdot y + 1 \cdot z = y + z
+\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial u} \, \frac{\partial u}{\partial x} + \frac{\partial \mathcal{L}}{\partial v} \, \frac{\partial v}{\partial x} = 1 \cdot y + 1 \cdot z = y + z
 $$
 
 **Observation:** Gradient contributions **accumulate** along all paths.
 
 ---
 
-## 7. Algorithmic Summary
+## 6. Algorithmic Summary
 
 **Backpropagation Algorithm on a Graph:**
 
@@ -183,7 +175,7 @@ This is the **general recipe** for any computation graph, including deep neural 
 
 ---
 
-## 8. Key Takeaways
+## 7. Key Takeaways
 
 1. A computation graph breaks complex functions into **nodes and operations**
 2. Forward pass **computes values**, backward pass **propagates gradients**

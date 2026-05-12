@@ -45,7 +45,7 @@ For one sample, the forward pass is a chain of operations:
 
 
 $$
-\large x \longrightarrow \boxed{\cdot W} \longrightarrow z \longrightarrow \boxed{b+} \longrightarrow \hat{y} \longrightarrow \boxed{-y} \longrightarrow \text{error} \longrightarrow \boxed{(\cdot)^2} \longrightarrow \ell
+x \longrightarrow \boxed{\times W}  \longrightarrow \boxed{+b} \longrightarrow z\longrightarrow \hat{y} \longrightarrow \boxed{(\cdot - y)^2} \longrightarrow \ell
 $$
 
 
@@ -78,25 +78,25 @@ $$
 Since $z^{(i)} = x^{(i)} W$:
 
 $$
-\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)\mathsf{T}}}_{\text{input transpose}}
+\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)T}}_{\text{input transpose}}
 $$
 
 **Combine:**
 
 $$
-\frac{\partial \ell^{(i)}}{\partial W} = 2(\hat{y}^{(i)} - y^{(i)}) \cdot 1 \cdot x^{(i)\mathsf{T}} = 2 x^{(i)\mathsf{T}} (\hat{y}^{(i)} - y^{(i)})
+\frac{\partial \ell^{(i)}}{\partial W} = 2(\hat{y}^{(i)} - y^{(i)}) \, x^{(i)T} = 2 x^{(i)T} (\hat{y}^{(i)} - y^{(i)})
 $$
 
 Averaging over all $n$ samples:
 
 $$
-\boxed{\frac{\partial \mathcal{L}}{\partial W} = \frac{2}{n} X^{\mathsf{T}} (\hat{Y} - Y)}
+\boxed{\frac{\partial \mathcal{L}}{\partial W} = \frac{2}{n} X^{T} (\hat{Y} - Y)}
 $$
 
 Similarly for the bias (since $\frac{\partial \hat{y}^{(i)}}{\partial b} = 1$):
 
 $$
-\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)}) = \frac{2}{n} \mathbf{1}^{\mathsf{T}} (\hat{Y} - Y)}
+\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)}) = \frac{2}{n} \mathbf{1}^{T} (\hat{Y} - Y)}
 $$
 
 ### 2.4 Parameter Update
@@ -143,16 +143,18 @@ The forward pass has one additional node — the sigmoid activation:
 
 
 $$
-\large x \longrightarrow \boxed{\cdot W} \longrightarrow z_{temp} \longrightarrow \boxed{+b} \longrightarrow z \longrightarrow \boxed{\sigma} \longrightarrow \hat{y} \longrightarrow \boxed{\text{BCE}(y, \hat{y})} \longrightarrow \ell
+x \longrightarrow \boxed{\times W} \longrightarrow \boxed{+b} \longrightarrow z \longrightarrow \boxed{\sigma} \longrightarrow \hat{y} \longrightarrow \boxed{\text{BCE}} \longrightarrow \ell
 $$
 
+
+Where $z^{(i)} = x^{(i)} W + b$ and $\ell^{(i)} = -y^{(i)} \log \hat{y}^{(i)} - (1-y^{(i)}) \log(1 - \hat{y}^{(i)})$ is the per-example BCE.
 
 ### 3.3 Backward Pass: Chain Rule
 
 We need $\frac{\partial \mathcal{L}}{\partial W}$ and $\frac{\partial \mathcal{L}}{\partial b}$. The chain gives:
 
 $$
-\frac{\partial \ell^{(i)}}{\partial W} = \frac{\partial \ell^{(i)}}{\partial \hat{y}^{(i)}} \cdot \frac{\partial \hat{y}^{(i)}}{\partial z^{(i)}} \cdot \frac{\partial z^{(i)}}{\partial W}
+\frac{\partial \ell^{(i)}}{\partial W} = \frac{\partial \ell^{(i)}}{\partial \hat{y}^{(i)}} \, \frac{\partial \hat{y}^{(i)}}{\partial z^{(i)}} \, \frac{\partial z^{(i)}}{\partial W}
 $$
 
 **Step 1: Gradient of BCE w.r.t. prediction**
@@ -180,25 +182,25 @@ $$
 Since $z^{(i)} = x^{(i)} W + b$:
 
 $$
-\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)\mathsf{T}}}_{\text{input transpose}}, \quad \underbrace{\frac{\partial z^{(i)}}{\partial b}}_{\text{bias gradient}} = \underbrace{1}_{\text{constant}}
+\underbrace{\frac{\partial z^{(i)}}{\partial W}}_{\text{linear gradient}} = \underbrace{x^{(i)T}}_{\text{input transpose}}, \quad \underbrace{\frac{\partial z^{(i)}}{\partial b}}_{\text{bias gradient}} = \underbrace{1}_{\text{constant}}
 $$
 
 **Combine:**
 
 $$
-\frac{\partial \ell^{(i)}}{\partial W} = x^{(i)\mathsf{T}} (\hat{y}^{(i)} - y^{(i)})
+\frac{\partial \ell^{(i)}}{\partial W} = x^{(i)T} (\hat{y}^{(i)} - y^{(i)})
 $$
 
 Averaging over all $n$ samples:
 
 $$
-\boxed{\frac{\partial \mathcal{L}}{\partial W} = \frac{1}{n} X^{\mathsf{T}} (\hat{Y} - Y)}
+\boxed{\frac{\partial \mathcal{L}}{\partial W} = \frac{1}{n} X^{T} (\hat{Y} - Y)}
 $$
 
 And for the bias:
 
 $$
-\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)}) = \frac{1}{n} \mathbf{1}^{\mathsf{T}} (\hat{Y} - Y)}
+\boxed{\frac{\partial \mathcal{L}}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)}) = \frac{1}{n} \mathbf{1}^{T} (\hat{Y} - Y)}
 $$
 
 ### 3.4 Parameter Update
@@ -220,8 +222,8 @@ $$
 | **Forward** | $\hat{y}^{(i)} = x^{(i)} W + b$ | $\hat{y}^{(i)} = \sigma(x^{(i)} W + b)$ |
 | **Loss** | MSE: $(\hat{y}^{(i)} - y^{(i)})^2$ | BCE: $-y^{(i)} \log \hat{y}^{(i)} - (1-y^{(i)}) \log(1 - \hat{y}^{(i)})$ |
 | **Error signal** | $2(\hat{y}^{(i)} - y^{(i)})$ | $(\hat{y}^{(i)} - y^{(i)})$ *(after sigmoid-BCE collapse)* |
-| **Weight gradient** | $\frac{2}{n} X^{\mathsf{T}}(\hat{Y} - Y)$ | $\frac{1}{n} X^{\mathsf{T}}(\hat{Y} - Y)$ |
-| **Bias gradient** | $\frac{2}{n} \mathbf{1}^{\mathsf{T}}(\hat{Y} - Y)$ | $\frac{1}{n} \mathbf{1}^{\mathsf{T}}(\hat{Y} - Y)$ |
+| **Weight gradient** | $\frac{2}{n} X^{T}(\hat{Y} - Y)$ | $\frac{1}{n} X^{T}(\hat{Y} - Y)$ |
+| **Bias gradient** | $\frac{2}{n} \mathbf{1}^{T}(\hat{Y} - Y)$ | $\frac{1}{n} \mathbf{1}^{T}(\hat{Y} - Y)$ |
 
 **Pattern:** Both follow the same structure:
 

@@ -24,7 +24,7 @@ $$
 Then:
 
 $$
-\underbrace{\frac{dy}{dx}}_{\text{total derivative}} = \underbrace{\frac{dy}{dg}}_{\text{outer derivative}} \cdot \underbrace{\frac{dg}{dx}}_{\text{inner derivative}}
+\underbrace{\frac{dy}{dx}}_{\text{total derivative}} = \underbrace{\frac{dy}{dg}}_{\text{outer derivative}} \, \underbrace{\frac{dg}{dx}}_{\text{inner derivative}}
 $$
 
 Example:
@@ -38,7 +38,7 @@ u = 3x + 1
 $$
 
 $$
-\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx} = 2u \cdot 3 = 6(3x + 1)
+\frac{dy}{dx} = \frac{dy}{du} \, \frac{du}{dx} = 2u \cdot 3 = 6(3x + 1)
 $$
 
 **Takeaway:** The chain rule decomposes a derivative into **local contributions**.
@@ -56,7 +56,7 @@ $$
 The derivative of $z$ w.r.t $t$ is:
 
 $$
-\underbrace{\frac{dz}{dt}}_{\text{total derivative}} = \underbrace{\frac{\partial z}{\partial x}}_{\text{path through } x} \cdot \underbrace{\frac{dx}{dt}}_{\text{rate of } x} + \underbrace{\frac{\partial z}{\partial y}}_{\text{path through } y} \cdot \underbrace{\frac{dy}{dt}}_{\text{rate of } y}
+\underbrace{\frac{dz}{dt}}_{\text{total derivative}} = \underbrace{\frac{\partial z}{\partial x}}_{\text{path through } x} \, \underbrace{\frac{dx}{dt}}_{\text{rate of } x} + \underbrace{\frac{\partial z}{\partial y}}_{\text{path through } y} \, \underbrace{\frac{dy}{dt}}_{\text{rate of } y}
 $$
 
 **Interpretation:** If multiple paths influence $z$, each path contributes **additively** to the total derivative.
@@ -68,7 +68,7 @@ $$
 A neural network is a **chain of functions**:
 
 $$
-\mathcal{L} \leftarrow \hat{y} \leftarrow z^{(L)} \leftarrow a^{(L-1)} \leftarrow \dots \leftarrow a^{(1)} \leftarrow z^{(1)} \leftarrow x
+\boxed{\mathcal{L} \longleftarrow \hat{y} \longleftarrow z^{(L)} \longleftarrow a^{(L-1)} \longleftarrow \dots \longleftarrow a^{(1)} \longleftarrow z^{(1)} \longleftarrow x}
 $$
 
 * Each layer receives a **gradient signal** from the next layer
@@ -77,7 +77,7 @@ $$
 Formally, for a scalar loss $\mathcal{L}$:
 
 $$
-\boxed{\underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l)}}}_{\text{error signal at layer } l} = \underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l+1)}}}_{\text{error from next layer}} \cdot \underbrace{\frac{\partial z^{(l+1)}}{\partial z^{(l)}}}_{\text{local derivative}}}
+\boxed{\underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l)}}}_{\text{error signal at layer } l} = \underbrace{\frac{\partial \mathcal{L}}{\partial z^{(l+1)}}}_{\text{error from next layer}} \, \underbrace{\frac{\partial z^{(l+1)}}{\partial z^{(l)}}}_{\text{local derivative}}}
 $$
 
 **Interpretation:** Gradients **flow backward**, layer by layer.
