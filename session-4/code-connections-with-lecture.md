@@ -6,7 +6,7 @@ This document maps every key mathematical concept from the backpropagation lectu
 
 ## 1. Forward Pass: From Math to Code
 
-### 1.1 Mathematical Foundation (Lecture 1)
+### 1.1 Mathematical Foundation
 
 **Mathematical representation:**
 $$\hat{y} = f(x; W, b)$$
@@ -62,7 +62,7 @@ return np.dot(input, self.weights) + self.biases
 
 ## 2. Loss Function and Initial Gradient
 
-### 2.1 Mathematical Foundation (Lectures 1, 4)
+### 2.1 Mathematical Foundation
 
 **For multi-class classification:**
 $$\mathcal{L} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{c=1}^{C} y_{i,c} \log(\hat{y}_{i,c})$$
@@ -101,7 +101,7 @@ def softmax_crossentropy_with_logits(logits, labels):
 
 ## 3. Backpropagation: Chain Rule in Code
 
-### 3.1 Mathematical Foundation (Lectures 2, 3)
+### 3.1 Mathematical Foundation
 
 **Chain rule for neural networks:**
 $$\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \frac{\partial \mathcal{L}}{\partial z^{(l)}} \cdot \frac{\partial z^{(l)}}{\partial W^{(l)}}$$
@@ -168,7 +168,7 @@ def backward(self, grad_output):
 
 ## 4. Training Loop: Full Backpropagation Algorithm
 
-### 4.1 Mathematical Algorithm (Lecture 7)
+### 4.1 Mathematical Algorithm
 
 **Complete backpropagation steps:**
 1. Forward pass: compute $z^{(l)}$ and $a^{(l)}$ for all layers
@@ -234,7 +234,7 @@ def __init__(self, input_units, output_units, learning_rate=0.1):
 
 ## 6. Vectorization and Batch Processing
 
-### 6.1 Mathematical Foundation (Lecture 7)
+### 6.1 Mathematical Foundation
 
 **Vectorized operations for batch size $m$:**
 $$\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \frac{1}{m} (A^{(l-1)})^T \Delta^{(l)}$$
@@ -262,7 +262,7 @@ grad_biases = np.sum(grad_output, axis=0)         # Sum over batch dimension
 
 ### 7.1 Linear Regression Connection
 
-**Mathematical model (Lecture 4):**
+**Mathematical model:**
 $$\hat{y} = xW + b$$
 $$\mathcal{L} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)})^2$$
 $$\frac{\partial \mathcal{L}}{\partial W} = \frac{2}{n} X^T (\hat{Y} - Y)$$
@@ -280,7 +280,7 @@ def mse_grad(predictions, targets):
 
 ### 7.2 Logistic Regression Connection
 
-**Mathematical model (Lecture 4):**
+**Mathematical model:**
 $$\hat{y} = \sigma(xW + b)$$
 $$\mathcal{L} = -\frac{1}{n} \sum_{i=1}^{n} [y^{(i)} \log \hat{y}^{(i)} + (1-y^{(i)}) \log(1-\hat{y}^{(i)})]$$
 $$\frac{\partial \mathcal{L}}{\partial W} = \frac{1}{n} X^T (\hat{Y} - Y)$$
