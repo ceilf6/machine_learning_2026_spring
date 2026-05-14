@@ -1,6 +1,6 @@
 # Backpropagation in Linear Regression and Logistic Regression
 
-![](./img/bplogistic.jpg)
+![](./img/bpinlrandlr.png)
 
 ---
 
@@ -114,6 +114,9 @@ $$
 ---
 
 ## 3. Logistic Regression as a Computation Graph
+
+![](./img/bplogistic.jpg)
+
 
 ### 3.1 Model and Loss
 

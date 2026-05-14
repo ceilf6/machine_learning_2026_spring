@@ -1,5 +1,7 @@
 # Confusion Matrix
 
+![](./img/confusionmatrixgreenblackboard.jpg)
+
 ---
 
 ## 1. Purpose

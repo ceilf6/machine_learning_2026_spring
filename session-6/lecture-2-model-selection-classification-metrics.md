@@ -1,5 +1,8 @@
 # Classification Metrics
 
+
+![](./img/classificationmatricschalkboard.jpg)
+
 ---
 
 ## 1. Goal

@@ -1,3 +1,7 @@
+# Why Inverted Dropout
+
+
+![](./img/whyinverteddropout.png)
 ## Questions:
 
 In our Neural Network from scratch implementation (as well as for the underlying implementation of PyTorch and TensorFlow), for Dropout, why we have 

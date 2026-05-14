@@ -1,5 +1,7 @@
 # Regression Metrics
 
+![](./img/regression_metrics.jpg)
+
 ---
 
 ## 1. Goal

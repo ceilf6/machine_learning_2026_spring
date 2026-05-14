@@ -1,8 +1,7 @@
 # Evaluation Methods
 
 
-![](./img/kf.jpg)
-
+![](./img/evaluationmethods.jpg)
 
 ---
 
@@ -60,6 +59,9 @@ Single split may be **unstable**:
 ---
 
 ## 4. K-Fold Cross-Validation (Optional)
+
+![](./img/kf.jpg)
+
 
 Split data into $K$ folds.
 

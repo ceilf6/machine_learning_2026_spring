@@ -1,6 +1,7 @@
 # Backpropagation in Neural Networks
 
-![](./img/trainnncover.gif)
+![](./img/bpchalkboard.jpg)
+
 
 ---
 
@@ -102,6 +103,9 @@ Where:
 ---
 
 ## 5. Hidden Layer Gradients
+
+![](./img/backpropagation_main.gif)
+
 
 For hidden layer $l$:
 
@@ -322,3 +326,4 @@ $$
 W^{(l)} \leftarrow W^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial W^{(l)}}, \quad b^{(l)} \leftarrow b^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial b^{(l)}}
 $$
 
+![](./img/trainnncover.gif)

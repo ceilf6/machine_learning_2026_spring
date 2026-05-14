@@ -1,7 +1,6 @@
 # Backpropagation on Computation Graphs
 
-
-![](./img/backpropagation_main.gif)
+![](./img/bpgraph.png)
 
 
 ---
