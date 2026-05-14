@@ -175,17 +175,10 @@ class SGD(Optimizer):
 
 
 class Momentum(Optimizer):
-    """
-    Momentum optimizer (Gradient Descent with Momentum).
-    Like SGD, but with momentum to accelerate convergence in consistent directions.
-    """
-
     def __init__(self, params, learning_rate=0.01, momentum=0.9, batch_size=64):
         super().__init__(params=params, learning_rate=learning_rate)
         self.momentum = momentum
         self.batch_size = batch_size
-
-        # Velocity buffers for each parameter
         self.v_weights = {}
         self.v_biases = {}
 
@@ -194,25 +187,22 @@ class Momentum(Optimizer):
             if layer.grad_weights is None:
                 continue
 
-            grad_weights = layer.grad_weights
-            grad_biases = layer.grad_biases
-
             key = id(layer)
             if key not in self.v_weights:
-                self.v_weights[key] = np.zeros_like(grad_weights)
-                self.v_biases[key] = np.zeros_like(grad_biases)
+                self.v_weights[key] = np.zeros_like(layer.grad_weights)
+                self.v_biases[key] = np.zeros_like(layer.grad_biases)
 
-            # Update velocities
             self.v_weights[key] = (
-                self.momentum * self.v_weights[key] - self.learning_rate * grad_weights
+                self.momentum * self.v_weights[key]
+                + (1 - self.momentum) * layer.grad_weights
             )
             self.v_biases[key] = (
-                self.momentum * self.v_biases[key] - self.learning_rate * grad_biases
+                self.momentum * self.v_biases[key]
+                + (1 - self.momentum) * layer.grad_biases
             )
 
-            # Update parameters
-            layer.weights = layer.weights + self.v_weights[key]
-            layer.biases = layer.biases + self.v_biases[key]
+            layer.weights = layer.weights - self.learning_rate * self.v_weights[key]
+            layer.biases = layer.biases - self.learning_rate * self.v_biases[key]
 
 
 class Adam(Optimizer):
