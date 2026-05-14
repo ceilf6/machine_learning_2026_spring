@@ -1,6 +1,6 @@
 ## Questions:
 
-In our NN from scratch implementation, for Dropout, why we have 
+In our Neural Network from scratch implementation (as well as for the underlying implementation of PyTorch and TensorFlow), for Dropout, why we have 
 ```python
 self.mask = np.random.binomial(1, 1 - self.p, size=input.shape) / (1 - self.p)
 ```

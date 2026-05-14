@@ -73,27 +73,27 @@ for layer in network:
 
 ### Mathematical Notation
 
-Let's establish clear notation for the forward pass:
+Let's establish clear notation for the forward pass in full batch form:
 
-- $x^{(0)}$ — input data (batch of 784-dimensional vectors)
-- $z^{(l)}$ — **pre-activation** (output of Dense layer before activation)
-- $a^{(l)}$ — **activation** (output after applying activation function)
-- $W^{(l)}$ — weight matrix of layer $l$
-- $b^{(l)}$ — bias vector of layer $l$
+- $X = A^{(0)}$ — input data (matrix of $n$ samples, each 784-dimensional), shape $n \times 784$
+- $Z^{(l)}$ — **pre-activation** (output of Dense layer before activation), shape $n \times n_l$
+- $A^{(l)}$ — **activation** (output after applying activation function), shape $n \times n_l$
+- $W^{(l)}$ — weight matrix of layer $l$, shape $n_{l-1} \times n_l$
+- $b^{(l)}$ — bias row vector of layer $l$, shape $1 \times n_l$
 
 The forward pass computes:
 
 $$
 \begin{align}
-z^{(1)} &= a^{(0)} W^{(1)} + b^{(1)} \quad &\text{(Dense layer 1)} \\
-a^{(1)} &= \text{ReLU}(z^{(1)}) \quad &\text{(Activation 1)} \\
-z^{(2)} &= a^{(1)} W^{(2)} + b^{(2)} \quad &\text{(Dense layer 2)} \\
-a^{(2)} &= \text{ReLU}(z^{(2)}) \quad &\text{(Activation 2)} \\
-z^{(3)} &= a^{(2)} W^{(3)} + b^{(3)} \quad &\text{(Dense layer 3, logits)}
+Z^{(1)} &= A^{(0)} W^{(1)} + b^{(1)} \quad &\text{(Dense layer 1)} \\
+A^{(1)} &= \text{ReLU}(Z^{(1)}) \quad &\text{(Activation 1)} \\
+Z^{(2)} &= A^{(1)} W^{(2)} + b^{(2)} \quad &\text{(Dense layer 2)} \\
+A^{(2)} &= \text{ReLU}(Z^{(2)}) \quad &\text{(Activation 2)} \\
+Z^{(3)} &= A^{(2)} W^{(3)} + b^{(3)} \quad &\text{(Dense layer 3, logits)}
 \end{align}
 $$
 
-Where $a^{(0)} = x^{(0)}$ is the input, and $z^{(3)}$ are the final **logits** (pre-softmax scores).
+Where $A^{(0)} = X$ is the input, and $Z^{(3)}$ are the final **logits** (pre-softmax scores). The final output $\hat{Y} = \text{softmax}(Z^{(3)})$ gives class probabilities.
 
 ---
 
@@ -116,11 +116,11 @@ def forward(network, X):
 The `activations` list contains:
 
 ```python
-activations[0] = output of Dense(784, 64)     = z^(1)
-activations[1] = output of ReLU()             = a^(1)
-activations[2] = output of Dense(64, 32)      = z^(2)
-activations[3] = output of ReLU()             = a^(2)
-activations[4] = output of Dense(32, 10)      = z^(3) (logits)
+activations[0] = output of Dense(784, 64)     = Z^(1)  (pre-activation, shape: n × 64)
+activations[1] = output of ReLU()           = A^(1)  (post-activation, shape: n × 64)
+activations[2] = output of Dense(64, 32)    = Z^(2)  (pre-activation, shape: n × 32)
+activations[3] = output of ReLU()           = A^(2)  (post-activation, shape: n × 32)
+activations[4] = output of Dense(32, 10)    = Z^(3)  (logits, shape: n × 10)
 ```
 
 ### Why Store Activations?
@@ -182,10 +182,10 @@ y = x W + b
 $$
 
 Where:
-- $x \in \mathbb{R}^{B \times n_{in}}$ — input batch ($B$ = batch size)
+- $X \in \mathbb{R}^{n \times n_{in}}$ — input batch ($n$ = full batch size = dataset size)
 - $W \in \mathbb{R}^{n_{in} \times n_{out}}$ — weight matrix
-- $b \in \mathbb{R}^{n_{out}}$ — bias vector
-- $y \in \mathbb{R}^{B \times n_{out}}$ — output batch
+- $b \in \mathbb{R}^{1 \times n_{out}}$ — bias row vector
+- $Y \in \mathbb{R}^{n \times n_{out}}$ — output batch
 
 ### Code Implementation
 
@@ -289,8 +289,8 @@ Computing softmax then cross-entropy separately:
 
 $$
 \begin{align}
-p &= \text{softmax}(z) = \frac{e^{z}}{\sum_j e^{z_j}} \\
-\mathcal{L} &= -\sum_i y_i \log(p_i)
+\hat{y} &= \text{softmax}(z) = \frac{e^{z}}{\sum_j e^{z_j}} \\
+\mathcal{L} &= -\sum_k y_k \log(\hat{y}_k)
 \end{align}
 $$
 
@@ -309,18 +309,20 @@ Subtracting the max prevents overflow while maintaining mathematical equivalence
 The gradient of cross-entropy loss with respect to logits simplifies beautifully:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z} = p - y
+\frac{\partial \mathcal{L}}{\partial Z^{(L)}} = \hat{y} - y
 $$
 
 Where:
-- $p$ = predicted probabilities (after softmax)
+- $\hat{y}$ = predicted probabilities (after softmax)
 - $y$ = true labels (one-hot encoded)
 
 This simple form is directly returned:
 
 ```python
-grad = (softmax_probs - one_hot_labels) / batch_size
+grad = (softmax_probs - one_hot_labels) / n  # Δ^(L) = (1/n)(Ŷ - Y)
 ```
+
+The $\frac{1}{n}$ factor (where $n$ is the full dataset size in batch gradient descent) gives $\Delta^{(L)} = \frac{1}{n}(\hat{Y} - Y)$.
 
 If we had separate Softmax and CrossEntropy layers, we'd need to implement both their gradients separately, which is more complex and prone to numerical errors.
 
@@ -342,13 +344,13 @@ def forward(network, X):
 
 ### Execution Flow
 
-Given input batch $X \in \mathbb{R}^{B \times 784}$:
+Given input batch $X \in \mathbb{R}^{n \times 784}$ (where $n$ is the full dataset size):
 
-1. **Layer 0 (Dense)**: $z^{(1)} = X W^{(1)} + b^{(1)}$ → shape $(B, 64)$
-2. **Layer 1 (ReLU)**: $a^{(1)} = \max(0, z^{(1)})$ → shape $(B, 64)$
-3. **Layer 2 (Dense)**: $z^{(2)} = a^{(1)} W^{(2)} + b^{(2)}$ → shape $(B, 32)$
-4. **Layer 3 (ReLU)**: $a^{(2)} = \max(0, z^{(2)})$ → shape $(B, 32)$
-5. **Layer 4 (Dense)**: $z^{(3)} = a^{(2)} W^{(3)} + b^{(3)}$ → shape $(B, 10)$
+1. **Layer 0 (Dense)**: $Z^{(1)} = X W^{(1)} + b^{(1)}$ → shape $(n, 64)$
+2. **Layer 1 (ReLU)**: $A^{(1)} = \max(0, Z^{(1)})$ → shape $(n, 64)$
+3. **Layer 2 (Dense)**: $Z^{(2)} = A^{(1)} W^{(2)} + b^{(2)}$ → shape $(n, 32)$
+4. **Layer 3 (ReLU)**: $A^{(2)} = \max(0, Z^{(2)})$ → shape $(n, 32)$
+5. **Layer 4 (Dense)**: $Z^{(3)} = A^{(2)} W^{(3)} + b^{(3)}$ → shape $(n, 10)$
 
 The final output $z^{(3)}$ contains **logits** (unnormalized scores) for each of the 10 digit classes.
 
@@ -425,8 +427,8 @@ loss, grad_logits = softmax_crossentropy_with_logits(logits, y)
 ```
 
 This returns:
-- `loss`: scalar value of cross-entropy loss
-- `grad_logits`: $\frac{\partial \mathcal{L}}{\partial z^{(3)}}$ with shape $(B, 10)$
+- `loss`: scalar value of cross-entropy loss $\mathcal{L} = -\frac{1}{n}\sum_i\sum_k Y_{i,k}\log\hat{Y}_{i,k}$
+- `grad_logits`: $\Delta^{(L)} = \frac{1}{n}(\hat{Y} - Y)$ with shape $(n, 10)$ — the output error signal
 
 This is the **starting point** for backpropagation.
 
@@ -451,22 +453,22 @@ Each `layer.backward(grad_output)` does two things:
 
 ### Gradient Flow Notation
 
-Let $\frac{\partial \mathcal{L}}{\partial z^{(l)}}$ denote the gradient flowing backward into layer $l$.
+Let $\Delta^{(l)} = \frac{\partial \mathcal{L}}{\partial Z^{(l)}}$ denote the error signal flowing backward into layer $l$.
 
 The backward pass computes:
 
 $$
 \begin{align}
-\text{At Layer 4:} \quad &\frac{\partial \mathcal{L}}{\partial z^{(3)}} \text{ (given from loss)} \\
+\text{At Layer 4 (Dense):} \quad &\Delta^{(3)} = \frac{1}{n}(\hat{Y} - Y) \text{ (given from loss)} \\
 &\frac{\partial \mathcal{L}}{\partial W^{(3)}}, \frac{\partial \mathcal{L}}{\partial b^{(3)}} \text{ (computed and used for updates)} \\
-&\frac{\partial \mathcal{L}}{\partial a^{(2)}} \text{ (returned)} \\
+&\Delta^{(2)} = \Delta^{(3)} (W^{(3)})^T \odot (f^{(2)})'(Z^{(2)}) \text{ (returned)} \\
 \\
-\text{At Layer 3:} \quad &\frac{\partial \mathcal{L}}{\partial a^{(2)}} \text{ (received from Layer 4)} \\
-&\frac{\partial \mathcal{L}}{\partial z^{(2)}} \text{ (returned)} \\
+\text{At Layer 3 (ReLU):} \quad &\Delta^{(2)} \text{ (received from Layer 4)} \\
+&\Delta^{(1)} = \Delta^{(2)} \odot \mathbb{1}_{Z^{(1)} > 0} \text{ (returned)} \\
 \\
-\text{At Layer 2:} \quad &\frac{\partial \mathcal{L}}{\partial z^{(2)}} \text{ (received from Layer 3)} \\
+\text{At Layer 2 (Dense):} \quad &\Delta^{(1)} \text{ (received from Layer 3)} \\
 &\frac{\partial \mathcal{L}}{\partial W^{(2)}}, \frac{\partial \mathcal{L}}{\partial b^{(2)}} \text{ (computed and used)} \\
-&\frac{\partial \mathcal{L}}{\partial a^{(1)}} \text{ (returned)}
+&\Delta^{(0)} = \Delta^{(1)} (W^{(2)})^T \text{ (returned)}
 \end{align}
 $$
 
@@ -480,34 +482,41 @@ The Dense layer's `backward()` method computes **three gradients**:
 
 ```python
 def backward(self, grad_output):
+    # grad_output is Δ^(l) = ∂L/∂Z^(l)
+    # Compute weight gradient: ∂L/∂W^(l) = (A^(l-1))^T · Δ^(l)
     grad_weights = np.dot(self.input.T, grad_output)
+    
+    # Compute bias gradient: ∂L/∂b^(l) = sum_i Δ^(l)_i,:
     grad_biases = np.sum(grad_output, axis=0)
+    
+    # Compute input gradient (error signal for previous layer): Δ^(l-1) = Δ^(l) · (W^(l))^T
     grad_input = np.dot(grad_output, self.weights.T)
     
+    # Update parameters
     self.weights = self.weights - self.learning_rate * grad_weights
     self.biases = self.biases - self.learning_rate * grad_biases
     
-    return grad_input
+    return grad_input  # This becomes grad_output for the previous layer
 ```
 
 ### Derivation
 
-Given forward pass: $y = x W + b$
+Given forward pass: $Z^{(l)} = A^{(l-1)} W^{(l)} + b^{(l)}$
 
-And incoming gradient: $\frac{\partial \mathcal{L}}{\partial y}$ (denoted `grad_output`)
+And incoming error signal: $\Delta^{(l)} = \frac{\partial \mathcal{L}}{\partial Z^{(l)}}$ (denoted `grad_output`)
 
 We need to compute:
 
 #### 1. Gradient w.r.t. Weights
 
 $$
-\frac{\partial \mathcal{L}}{\partial W} = x^T \frac{\partial \mathcal{L}}{\partial y}
+\frac{\partial \mathcal{L}}{\partial W^{(l)}} = (A^{(l-1)})^T \Delta^{(l)}
 $$
 
 **Dimensions**:
-- $x$: $(B, n_{in})$
-- $\frac{\partial \mathcal{L}}{\partial y}$: $(B, n_{out})$
-- $x^T \frac{\partial \mathcal{L}}{\partial y}$: $(n_{in}, B) \times (B, n_{out}) = (n_{in}, n_{out})$ ✓
+- $A^{(l-1)}$: $(n, n_{in})$
+- $\Delta^{(l)}$: $(n, n_{out})$
+- $(A^{(l-1)})^T \Delta^{(l)}$: $(n_{in}, n) \times (n, n_{out}) = (n_{in}, n_{out})$ ✓
 
 **Code**:
 ```python
@@ -519,35 +528,35 @@ grad_weights = np.dot(self.input.T, grad_output)
 #### 2. Gradient w.r.t. Biases
 
 $$
-\frac{\partial \mathcal{L}}{\partial b} = \sum_{i=1}^B \frac{\partial \mathcal{L}}{\partial y_i}
+\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \sum_{i=1}^{n} \Delta^{(l)}_{i,:}
 $$
 
-**Why sum over batch?** Each bias $b_j$ affects **all samples** in the batch equally, so we sum their gradient contributions.
+**Why sum over batch?** Each bias $b^{(l)}_j$ affects **all samples** in the batch equally, so we sum their gradient contributions.
 
 **Code**:
 ```python
 grad_biases = np.sum(grad_output, axis=0)
 ```
 
-Summing over `axis=0` (batch dimension) gives a vector of shape $(n_{out},)$.
+Summing over `axis=0` (batch dimension) gives a row vector of shape $(1, n_{out})$.
 
-#### 3. Gradient w.r.t. Input
+#### 3. Gradient w.r.t. Input (Error Signal for Previous Layer)
 
 $$
-\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} W^T
+\Delta^{(l-1)} = \frac{\partial \mathcal{L}}{\partial A^{(l-1)}} = \Delta^{(l)} (W^{(l)})^T
 $$
 
 **Dimensions**:
-- $\frac{\partial \mathcal{L}}{\partial y}$: $(B, n_{out})$
-- $W^T$: $(n_{out}, n_{in})$
-- Product: $(B, n_{out}) \times (n_{out}, n_{in}) = (B, n_{in})$ ✓
+- $\Delta^{(l)}$: $(n, n_{out})$
+- $(W^{(l)})^T$: $(n_{out}, n_{in})$
+- Product: $(n, n_{out}) \times (n_{out}, n_{in}) = (n, n_{in})$ ✓
 
 **Code**:
 ```python
 grad_input = np.dot(grad_output, self.weights.T)
 ```
 
-**Purpose**: This gradient is **passed to the previous layer** to continue backpropagation.
+**Purpose**: This gradient is **passed to the previous layer** as the error signal $\Delta^{(l-1)}$ to continue backpropagation.
 
 ### Parameter Update (Gradient Descent)
 
@@ -582,24 +591,24 @@ def backward(self, grad_output):
 
 ### Derivation
 
-Given forward pass: $a = \max(0, z)$
+Given forward pass: $A = \text{ReLU}(Z)$
 
 The element-wise derivative is:
 
 $$
-\frac{\partial a_i}{\partial z_i} = \begin{cases}
-1 & \text{if } z_i > 0 \\
-0 & \text{if } z_i \leq 0
+\frac{\partial A}{\partial Z} = \begin{cases}
+1 & \text{if } Z > 0 \\
+0 & \text{if } Z \leq 0
 \end{cases}
 $$
 
 By chain rule:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z} = \frac{\partial \mathcal{L}}{\partial a} \odot \frac{\partial a}{\partial z}
+\Delta^{(l)} = \frac{\partial \mathcal{L}}{\partial Z^{(l)}} = \frac{\partial \mathcal{L}}{\partial A^{(l)}} \odot \frac{\partial A^{(l)}}{\partial Z^{(l)}} = \Delta^{(l+1)} \odot \mathbb{1}_{Z^{(l)} > 0}
 $$
 
-Where $\odot$ denotes element-wise multiplication.
+Where $\odot$ denotes element-wise multiplication and $\Delta^{(l+1)}$ is the incoming error signal from the layer above.
 
 **Code breakdown**:
 ```python
@@ -706,10 +715,10 @@ def predict(network, X):
 
 ### Step 1: Compute Logits
 
-Forward pass through the network produces unnormalized scores:
+Forward pass through the network produces unnormalized scores (logits):
 
 $$
-z = f_{\text{network}}(X) \in \mathbb{R}^{B \times 10}
+Z^{(L)} = f_{\text{network}}(X) \in \mathbb{R}^{n \times 10}
 $$
 
 ### Step 2: Convert to Probabilities
@@ -717,17 +726,17 @@ $$
 Apply softmax:
 
 $$
-p_j = \frac{e^{z_j}}{\sum_{k=1}^{10} e^{z_k}}
+\hat{y}_j = \frac{e^{z_j}}{\sum_{k=1}^{10} e^{z_k}}
 $$
 
 This transforms logits into a valid probability distribution:
-- $p_j \in (0, 1)$
-- $\sum_j p_j = 1$
+- $\hat{y}_j \in (0, 1)$
+- $\sum_j \hat{y}_j = 1$
 
 ### Step 3: Select Most Likely Class
 
 $$
-\hat{y} = \argmax_j p_j
+\hat{y} = \argmax_j \hat{y}_j
 $$
 
 Returns the class index (0-9) with highest probability.
@@ -822,13 +831,13 @@ The workhorse of neural networks is matrix multiplication. In the Dense layer:
 
 ```python
 # Forward pass
-output = np.dot(input, self.weights)  # (B, n_in) × (n_in, n_out) → (B, n_out)
+output = np.dot(input, self.weights)  # (n, n_in) × (n_in, n_out) → (n, n_out)
 
-# Backward pass - gradient w.r.t. weights
-grad_weights = np.dot(self.input.T, grad_output)  # (n_in, B) × (B, n_out) → (n_in, n_out)
+# Backward pass - gradient w.r.t. weights: ∂L/∂W^(l) = (A^(l-1))^T · Δ^(l)
+grad_weights = np.dot(self.input.T, grad_output)  # (n_in, n) × (n, n_out) → (n_in, n_out)
 
-# Backward pass - gradient w.r.t. input
-grad_input = np.dot(grad_output, self.weights.T)  # (B, n_out) × (n_out, n_in) → (B, n_in)
+# Backward pass - gradient w.r.t. input: Δ^(l-1) = Δ^(l) · (W^(l))^T
+grad_input = np.dot(grad_output, self.weights.T)  # (n, n_out) × (n_out, n_in) → (n, n_in)
 ```
 
 **Key insight**: Matrix multiplication elegantly handles the "fully connected" nature of Dense layers, computing all outputs for all samples in parallel.
@@ -841,18 +850,18 @@ NumPy's `*` operator performs **element-wise multiplication** (also called the H
 
 **ReLU backward pass:**
 ```python
-relu_grad = self.input > 0       # Boolean mask: True where input > 0
-return grad_output * relu_grad   # Element-wise multiply
+relu_grad = self.input > 0       # Boolean mask: True where Z^(l) > 0
+return grad_output * relu_grad   # Δ^(l) = Δ^(l+1) ⊙ 1_{Z^(l) > 0}
 ```
 
 **Softmax cross-entropy gradient:**
 ```python
-grad = (softmax_probs - one_hot_labels) / batch_size  # Element-wise subtraction
+grad = (softmax_probs - one_hot_labels) / n  # Δ^(L) = (1/n)(Ŷ - Y)
 ```
 
 **Loss computation:**
 ```python
-loss = -np.sum(one_hot_labels * np.log(softmax_probs + 1e-9)) / batch_size
+loss = -np.sum(one_hot_labels * np.log(softmax_probs + 1e-9)) / n  # L = -(1/n)ΣY·logŶ
 ```
 
 #### Mathematical Definition
@@ -902,10 +911,10 @@ return np.dot(input, self.weights) + self.biases
 ```
 
 Here:
-- `np.dot(input, self.weights)` produces output of shape $(B, n_{out})$
-- `self.biases` has shape $(n_{out},)$ — a 1D vector
+- `np.dot(input, self.weights)` produces output of shape $(n, n_{out})$
+- `self.biases` has shape $(1, n_{out})$ — a row vector
 
-NumPy automatically "broadcasts" the bias vector across the batch dimension.
+NumPy automatically "broadcasts" the bias row vector across all $n$ samples in the batch dimension.
 
 #### How Broadcasting Works
 
@@ -915,8 +924,7 @@ NumPy automatically "broadcasts" the bias vector across the batch dimension.
 
 **In our case:**
 
-
-The bias is conceptually expanded to shape $(1, n_{out})$, then replicated $B$ times along the first axis.
+The bias is conceptually expanded to shape $(1, n_{out})$, then replicated $n$ times along the first axis.
 
 #### Visual Representation
 
@@ -925,13 +933,13 @@ Without broadcasting (manual expansion):
   [[z11, z12, ..., z1n]]       [[b1, b2, ..., bn]]
   [[z21, z22, ..., z2n]]   +   [[b1, b2, ..., bn]]
   ...                          ...
-  [[zB1, zB2, ..., zBn]]       [[b1, b2, ..., bn]]
+  [[zn1, zn2, ..., znn]]       [[b1, b2, ..., bn]]
 
 With broadcasting (automatic):
   [[z11, z12, ..., z1n]]       [b1, b2, ..., bn]
   [[z21, z22, ..., z2n]]   +   ↑
   ...                          automatically expanded
-  [[zB1, zB2, ..., zBn]]
+  [[zn1, zn2, ..., znn]]
 ```
 
 #### Why Broadcasting Matters
@@ -944,14 +952,14 @@ With broadcasting (automatic):
 
 **Bias gradient:**
 ```python
-grad_biases = np.sum(grad_output, axis=0)
+grad_biases = np.sum(grad_output, axis=0)  # ∂L/∂b^(l) = sum_i Δ^(l)_i,:
 ```
 
-The reverse operation — summing over the batch dimension — collapses the $(B, n_{out})$ gradient into a $(n_{out},)$ vector matching the bias shape.
+The reverse operation — summing over the batch dimension — collapses the $(n, n_{out})$ error signal into a $(1, n_{out})$ row vector matching the bias shape.
 
 **The symmetry is elegant:**
 - Forward: broadcasting adds bias to each sample
-- Backward: summing aggregates gradients from all samples
+- Backward: summing aggregates error signals from all $n$ samples
 
 ---
 
