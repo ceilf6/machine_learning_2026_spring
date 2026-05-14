@@ -1,4 +1,6 @@
-# Neural Networks from Scratch — Session 6 (Dropout, L1/L2)
+# Neural Networks from Scratch — Session 7 (Dropout, L1/L2)
+
+Session 4, Session 5 and Session 7 form a miniseries of NN from scratch.
 
 ## What changes from Session 5
 

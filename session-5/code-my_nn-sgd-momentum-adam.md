@@ -1,10 +1,13 @@
 # Neural Networks from Scratch — Session 5 (SGD + Momentum + Adam)
 
+Session 4, Session 5 and Session 7 form a miniseries of NN from scratch.
+
+
 ## Where we are in the 3-session progression
 
 - **Session 4**: you implemented the full forward + loss + backprop pipeline, and each `Dense` layer updated its own parameters.
 - **Session 5** (this file): you keep the *same math*, but you refactor parameter updates into **optimizers**.
-- **Session 6**: you will keep this Session 5 structure and add **regularization** (Dropout, L1/L2).
+- **Session 7**: you will keep this Session 5 structure and add **regularization** (Dropout, L1/L2).
 
 ## Learning objectives (what you should be able to explain)
 
@@ -205,5 +208,5 @@ Then the optimizer updates using the parameters it was constructed with.
 - Adam is SGD + momentum + adaptive per-parameter learning rates.
 - Training logs usually report both **train accuracy** and **validation accuracy** to reveal overfitting.
 
-Next session (Session 6): keep this exact structure, then add **Dropout + L1/L2**.
+Next session (Session 7): keep this exact structure, then add **Dropout + L1/L2**.
 
