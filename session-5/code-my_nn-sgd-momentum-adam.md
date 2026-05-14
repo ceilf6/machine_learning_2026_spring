@@ -29,7 +29,7 @@ In this session you refactor the update rule into **optimizer objects**:
 
 - **GD**: full-batch Gradient Descent
 - **SGD**: mini-batch Stochastic Gradient Descent
-- **Momentum**
+- **Momentum**: simulating physical inertia by accumulating previous update directions, which effectively reduces oscillations in ravine-shaped terrain and accelerates convergence
 - **Adam**: adaptive learning rate + momentum
 
 ## Key design idea: separate responsibilities (PyTorch mental model)
@@ -111,6 +111,8 @@ It makes the training step safer: gradients always exist, and each batch overwri
 - **SGD (mini-batch)**
   - Many updates per epoch using random mini-batches.
   - Updates are noisy, but often reach a good solution faster.
+- **Momentum**
+  - Simulates physical inertia by accumulating previous update directions, which effectively reduces oscillations in ravine-shaped terrain and accelerates convergence
 - **Adam**
   - Adds moving averages of gradients (momentum-like).
   - Also rescales updates using a moving average of squared gradients (adaptive learning rates).
